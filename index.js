@@ -537,30 +537,30 @@ router.get('/reto', async (ctx) => {
 });
 
 router.get('/god', async (ctx) => {
-    if(ctx.query.format == "thtext"){
+    if (ctx.query.format == "thtext") {
         await fetch('https://raw.githubusercontent.com/boyphongsakorn/testrepo/main/godthtext')
-        .then(res => res.json())
-        .then((body) => {
-            ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
-            ctx.body = JSON.stringify(body);
-            ctx.status = 200;
-        })
-    }else if(ctx.query.format == "combothtext"){
+            .then(res => res.json())
+            .then((body) => {
+                ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
+                ctx.body = JSON.stringify(body);
+                ctx.status = 200;
+            })
+    } else if (ctx.query.format == "combothtext") {
         await fetch('https://raw.githubusercontent.com/boyphongsakorn/testrepo/main/godcombothtext')
-        .then(res => res.json())
-        .then((body) => {
-            ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
-            ctx.body = JSON.stringify(body);
-            ctx.status = 200;
-        })
-    }else{
+            .then(res => res.json())
+            .then((body) => {
+                ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
+                ctx.body = JSON.stringify(body);
+                ctx.status = 200;
+            })
+    } else {
         await fetch('https://raw.githubusercontent.com/boyphongsakorn/testrepo/main/god')
-        .then(res => res.json())
-        .then((body) => {
-            ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
-            ctx.body = JSON.stringify(body);
-            ctx.status = 200;
-        })
+            .then(res => res.json())
+            .then((body) => {
+                ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
+                ctx.body = JSON.stringify(body);
+                ctx.status = 200;
+            })
     }
 });
 
@@ -580,43 +580,197 @@ router.get('/gdpy', async (ctx) => {
     if (fileContents) {
         res.send(JSON.parse(fileContents));
     } else {*/
-        await fetch('https://www.myhora.com/%E0%B8%AB%E0%B8%A7%E0%B8%A2/%E0%B8%9B%E0%B8%B5-' + ctx.query.year + '.aspx')
+    await fetch('https://www.myhora.com/%E0%B8%AB%E0%B8%A7%E0%B8%A2/%E0%B8%9B%E0%B8%B5-' + ctx.query.year + '.aspx')
+        .then(res => res.text())
+        .then((body) => {
+            var $ = cheerio.load(body);
+            for (const val of $('font').toArray()) {
+                if (val.firstChild.data.indexOf("ตรวจสลากกินแบ่งรัฐบาล") > -1) {
+                    let day = val.firstChild.data.split(" ").splice(2)
+                    let monthnum
+                    switch (day[2]) {
+                        case 'มกราคม': monthnum = "01"; break;
+                        case 'กุมภาพันธ์': monthnum = "02"; break;
+                        case 'มีนาคม': monthnum = "03"; break;
+                        case 'เมษายน': monthnum = "04"; break;
+                        case 'พฤษภาคม': monthnum = "05"; break;
+                        case 'มิถุนายน': monthnum = "06"; break;
+                        case 'กรกฎาคม': monthnum = "07"; break;
+                        case 'สิงหาคม': monthnum = "08"; break;
+                        case 'กันยายน': monthnum = "09"; break;
+                        case 'ตุลาคม': monthnum = "10"; break;
+                        case 'พฤศจิกายน': monthnum = "11"; break;
+                        case 'ธันวาคม': monthnum = "12"; break;
+                    }
+                    peryear.unshift(padLeadingZeros(day[0], 2) + monthnum + day[3])
+                }
+            }
+            for (const val of peryear) {
+                yearlist.push(val)
+            }
+            //fs.writeFile('tmp/' + req.query.year + '.txt', JSON.stringify(yearlist), function (err) {
+            //if (err) throw err;
+            //res.send(yearlist)
+            ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
+            ctx.body = JSON.stringify(yearlist);
+            ctx.status = 200;
+            //});
+        })
+    //}
+});
+
+router.get('/checklottery', async (ctx) => {
+    let result = ""
+    await fetch('https://lottsanook.vercel.app/api/?date=' + ctx.query.date)
+        .then(res => res.json())
+        .then((body) => {
+            body.forEach(function (val, x) {
+                val.forEach(function (superval, y) {
+                    if (superval == req.query.search || superval == req.query.search.substr(0, 3) || superval == req.query.search.substr(3, 6) || superval == req.query.search.substr(4, 6) && y != 0) {
+                        if (x == 0) {
+                            result = result + "111111,";
+                        }
+                        if (x == 1) {
+                            result = result + "333000,";
+                        }
+                        if (x == 2) {
+                            result = result + "000333,";
+                        }
+                        if (x == 3) {
+                            result = result + "000022,";
+                        }
+                        if (x == 4) {
+                            result = result + "111112,";
+                        }
+                        if (x == 5) {
+                            result = result + "222222,";
+                        }
+                        if (x == 6) {
+                            result = result + "333333,";
+                        }
+                        if (x == 7) {
+                            result = result + "444444,";
+                        }
+                        if (x == 8) {
+                            result = result + "555555,";
+                        }
+                    }
+                })
+            })
+            ctx.body = result.substring(0, result.length - 1);
+            ctx.status = 200;
+            //res.send(result.substring(0, result.length - 1))
+        })
+});
+
+router.get('/lastlot', async (ctx) => {
+    let lastdate
+    let viewer
+    await fetch('https://lottsanook.vercel.app/api/gdpy?year=' + (new Date().getFullYear() + 543))
+        .then(res => res.json())
+        .then((body) => {
+            lastdate = body[body.length - 1]
+        })
+    await fetch('https://lottsanook.vercel.app/api/?date=' + lastdate)
+        .then(res => res.json())
+        .then((body) => {
+            if (req.query.info !== undefined) {
+                viewer = {
+                    info: {
+                        date: lastdate
+                    },
+                    win: body[0][1],
+                    threefirst: body[1][1] + ',' + body[1][2],
+                    threeend: body[2][1] + ',' + body[2][2],
+                    twoend: body[3][1]
+                }
+            } else {
+                viewer = {
+                    win: body[0][1],
+                    threefirst: body[1][1] + ',' + body[1][2],
+                    threeend: body[2][1] + ',' + body[2][2],
+                    twoend: body[3][1]
+                }
+            }
+            ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
+            ctx.body = JSON.stringify(viewer);
+            ctx.status = 200;
+        })
+});
+
+router.get('/getchit', async (ctx) => {
+    let a = []
+    await fetch('https://www.huayvips.com/luckynumber/')
+        .then(res => res.text())
+        .then((body) => {
+            let $ = cheerio.load(body)
+            for (const val of $('img').toArray()) {
+                if (val.attribs.src.indexOf('TL') > -1) {
+                    a.push(val.attribs.src)
+                }
+                if (val.attribs.src.indexOf('DN') > -1) {
+                    a.push(val.attribs.src)
+                }
+                if (val.attribs.src.indexOf('BT') > -1) {
+                    a.push(val.attribs.src)
+                }
+                if (a.length == 3) {
+                    ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
+                    ctx.body = JSON.stringify(a);
+                    ctx.status = 200;
+                    return
+                }
+            }
+        })
+});
+
+router.get('/finddol', async (ctx) => {
+    let channels
+    let allwin = []
+    if (req.query.search.length > 3) {
+        await fetch('https://raw.githubusercontent.com/boyphongsakorn/testrepo/main/god')
+            .then(res => res.json())
+            .then((body) => {
+                channels = body.splice(408)
+                console.log(channels)
+            })
+        for (const val of channels) {
+            console.log(val)
+            await fetch('https://lottsanook.vercel.app/api/?date=' + val + '&from')
+                .then(res => res.json())
+                .then((body) => {
+                    for (let index = 0; index < body.length; index++) {
+                        const element = body[index];
+                        if (element.includes(req.query.search.toString())) {
+                            allwin.push(body[0][0])
+                            //console.log('http://localhost:' + port + '/?date=' + val + '&from')
+                        }
+                    }
+
+                })
+        }
+        //res.send(allwin)
+        ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
+        ctx.body = JSON.stringify(allwin);
+        ctx.status = 200;
+    } else {
+        await fetch('https://astro.meemodel.com/%E0%B8%A7%E0%B8%B4%E0%B9%80%E0%B8%84%E0%B8%A3%E0%B8%B2%E0%B8%B0%E0%B8%AB%E0%B9%8C%E0%B9%80%E0%B8%A5%E0%B8%82%E0%B8%AB%E0%B8%A7%E0%B8%A2/' + req.query.search, { redirect: 'error' })
             .then(res => res.text())
             .then((body) => {
-                var $ = cheerio.load(body);
-                for (const val of $('font').toArray()) {
-                    if (val.firstChild.data.indexOf("ตรวจสลากกินแบ่งรัฐบาล") > -1) {
-                        let day = val.firstChild.data.split(" ").splice(2)
-                        let monthnum
-                        switch (day[2]) {
-                            case 'มกราคม': monthnum = "01"; break;
-                            case 'กุมภาพันธ์': monthnum = "02"; break;
-                            case 'มีนาคม': monthnum = "03"; break;
-                            case 'เมษายน': monthnum = "04"; break;
-                            case 'พฤษภาคม': monthnum = "05"; break;
-                            case 'มิถุนายน': monthnum = "06"; break;
-                            case 'กรกฎาคม': monthnum = "07"; break;
-                            case 'สิงหาคม': monthnum = "08"; break;
-                            case 'กันยายน': monthnum = "09"; break;
-                            case 'ตุลาคม': monthnum = "10"; break;
-                            case 'พฤศจิกายน': monthnum = "11"; break;
-                            case 'ธันวาคม': monthnum = "12"; break;
-                        }
-                        peryear.unshift(padLeadingZeros(day[0], 2) + monthnum + day[3])
+                let $ = cheerio.load(body)
+                $('td').toArray().forEach(element => {
+                    let sl = element.firstChild.data
+                    if (sl != null && sl.split(" ").length == 3 && sl.split(" ")[2] >= 2550) {
+                        allwin.unshift(sl)
                     }
-                }
-                for (const val of peryear) {
-                    yearlist.push(val)
-                }
-                //fs.writeFile('tmp/' + req.query.year + '.txt', JSON.stringify(yearlist), function (err) {
-                    //if (err) throw err;
-                    //res.send(yearlist)
-                    ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
-                    ctx.body = JSON.stringify(yearlist);
-                    ctx.status = 200;
-                //});
-            })
-    //}
+
+                });
+                //res.send(allwin)
+                ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
+                ctx.body = JSON.stringify(allwin);
+                ctx.status = 200;
+            });
+    }
 });
 
 router.allowMethods();
