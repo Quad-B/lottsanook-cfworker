@@ -11,17 +11,6 @@ function padLeadingZeros(num, size) {
     return s;
 }
 
-router.add({
-    path: '/hello',
-    method: ['GET'],
-    headers: {
-      'content-type': 'application/json;charset=UTF-8'
-    }
-}, async (ctx) => {
-    ctx.status = 200;
-    ctx.body = ctx.query.date;
-});
-
 router.get('/', async (ctx) => {
     if (!ctx.query.date) {
         ctx.query.date = padLeadingZeros(new Date().getDate(), 2) + '' + padLeadingZeros((new Date().getMonth() + 1), 2) + '' + (new Date().getFullYear() + 543)
@@ -502,7 +491,7 @@ router.get('/index2', async (ctx) => {
                         data[0][0] = ctx.query.date.substring(0, 2) + monthtext + ctx.query.date.substring(4, 8)
                     }
                     //res.send(data)
-                    ctx.body = JSON.stringify(data);
+                    ctx.body = data;
                     ctx.status = 200;
                 }
             })
