@@ -11,7 +11,7 @@
   "dependencies": {
     "cheerio": "^1.0.0-rc.10",
     "cloudworker-router": "^1.12.2",
-    "fs": "0.0.1-security",
+    "follow-redirects": "^1.14.5",
     "node-fetch": "^2.6.6"
   }
 }
