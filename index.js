@@ -11,6 +11,17 @@ function padLeadingZeros(num, size) {
     return s;
 }
 
+router.add({
+    path: '/hello',
+    method: ['GET'],
+    headers: {
+      'content-type': 'application/json;charset=UTF-8'
+    }
+}, async (ctx) => {
+    ctx.status = 200;
+    ctx.body = ctx.query.date;
+});
+
 router.get('/', async (ctx) => {
     if (!ctx.query.date) {
         ctx.query.date = padLeadingZeros(new Date().getDate(), 2) + '' + padLeadingZeros((new Date().getMonth() + 1), 2) + '' + (new Date().getFullYear() + 543)
