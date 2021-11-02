@@ -17,7 +17,7 @@ router.get('/', async (ctx) => {
     }
     if (ctx.query.date.substring(4, 8) == new Date().getFullYear() + 543) {
         if (ctx.query.from !== undefined) {
-            await fetch('https://lottsanook-cfworker.boy1556.workers.dev/index2?date=' + ctx.query.date + '&from')
+            await fetch('https://lottsanook.vercel.app/api/index2?date=' + ctx.query.date + '&from')
                 .then(res => res.json())
                 .then((body) => {
                     //res.send(body)
@@ -29,7 +29,7 @@ router.get('/', async (ctx) => {
                     ctx.status = 200;*/
                 })
         } else {
-            await fetch('https://lottsanook-cfworker.boy1556.workers.dev/index2?date=' + ctx.query.date)
+            await fetch('https://lottsanook.vercel.app/api/index2?date=' + ctx.query.date)
                 .then(res => res.json())
                 .then((body) => {
                     //res.send(body)
