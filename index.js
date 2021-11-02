@@ -16,29 +16,29 @@ router.get('/', async (ctx) => {
         ctx.query.date = padLeadingZeros(new Date().getDate(), 2) + '' + padLeadingZeros((new Date().getMonth() + 1), 2) + '' + (new Date().getFullYear() + 543)
     }
     if (ctx.query.date.substring(4, 8) == new Date().getFullYear() + 543) {
-        if (ctx.query.from !== undefined) {
+        //if (ctx.query.from !== undefined) {
             await fetch('https://lottsanook-cfworker.boy1556.workers.dev/index2?date=' + ctx.query.date + '&from')
-                .then(res => res.json())
+                .then(res => res.text())
                 .then((body) => {
                     //res.send(body)
-                    /*ctx.response = {headers:{'content-type': 'application/json; charset=utf-8'}}
+                    /*ctx.response = {headers:{'content-type': 'application/json; charset=utf-8','access-control-allow-origin': '*'}}
                     ctx.body = JSON.stringify(body);
                     ctx.status = 200;*/
                     ctx.body = 'test';
                     ctx.status = 200;
                 })
-        } else {
+        /*} else {
             await fetch('https://lottsanook-cfworker.boy1556.workers.dev/index2?date=' + ctx.query.date)
                 .then(res => res.json())
                 .then((body) => {
                     //res.send(body)
-                    /*ctx.response = {headers:{'content-type': 'application/json; charset=utf-8'}}
+                    /*ctx.response = {headers:{'content-type': 'application/json; charset=utf-8','access-control-allow-origin': '*'}}
                     ctx.body = JSON.stringify(body);
                     ctx.status = 200;*/
-                    ctx.body = 'test';
+                    /*ctx.body = 'test';
                     ctx.status = 200;
                 })
-        }
+        }*/
     } else {
         let data = ""
         let monthtext
@@ -100,7 +100,7 @@ router.get('/', async (ctx) => {
 
                     if ($('div').toArray()[2] == null) {
                         //res.send(data)
-                        ctx.response = {headers:{'content-type': 'application/json; charset=utf-8'}}
+                        ctx.response = {headers:{'content-type': 'application/json; charset=utf-8','access-control-allow-origin': '*'}}
                         ctx.body = JSON.stringify(data);
                         ctx.status = 200;
                         return
@@ -338,7 +338,7 @@ router.get('/', async (ctx) => {
                                 data[0][0] = ctx.query.date.substring(0, 2) + monthtext + ctx.query.date.substring(4, 8)
                             }
                             //res.send(data)
-                            ctx.response = {headers:{'content-type': 'application/json; charset=utf-8'}}
+                            ctx.response = {headers:{'content-type': 'application/json; charset=utf-8','access-control-allow-origin': '*'}}
                             ctx.body = JSON.stringify(data);
                             ctx.status = 200;
                         //});
@@ -347,18 +347,18 @@ router.get('/', async (ctx) => {
                             data[0][0] = ctx.query.date.substring(0, 2) + monthtext + ctx.query.date.substring(4, 8)
                         }
                         //res.send(data)
-                        ctx.response = {headers:{'content-type': 'application/json; charset=utf-8'}}
+                        ctx.response = {headers:{'content-type': 'application/json; charset=utf-8','access-control-allow-origin': '*'}}
                         ctx.body = JSON.stringify(data);
                         ctx.status = 200;
                     }
                 }).catch(error => {
                     //console.log(error);
                     data = [["\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e17\u0e35\u0e481", 0], ["\u0e40\u0e25\u0e02\u0e2b\u0e19\u0e49\u0e323\u0e15\u0e31\u0e27", 0, 0], ["\u0e40\u0e25\u0e02\u0e17\u0e49\u0e32\u0e223\u0e15\u0e31\u0e27", 0, 0], ["\u0e40\u0e25\u0e02\u0e17\u0e49\u0e32\u0e222\u0e15\u0e31\u0e27", 0], ["\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e02\u0e49\u0e32\u0e07\u0e40\u0e04\u0e35\u0e22\u0e07\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e17\u0e35\u0e481", 0, 0], ["\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e17\u0e35\u0e482", 0, 0, 0, 0, 0], ["\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e17\u0e35\u0e483", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], ["\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e17\u0e35\u0e484", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], ["\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e17\u0e35\u0e485", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-                    /*res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+                    /*res.writeHead(200, { 'content-type': 'application/json; charset=utf-8','access-control-allow-origin': '*' });
                     res.write(JSON.stringify(data));
                     res.end();*/
                     //res.send(data)
-                    ctx.response = {headers:{'content-type': 'application/json; charset=utf-8'}}
+                    ctx.response = {headers:{'content-type': 'application/json; charset=utf-8','access-control-allow-origin': '*'}}
                     ctx.body = JSON.stringify(data);
                     ctx.status = 200;
                 });
@@ -478,7 +478,7 @@ router.get('/index2', async (ctx) => {
                             data[0][0] = ctx.query.date.substring(0, 2) + monthtext + ctx.query.date.substring(4, 8)
                         }
                         //res.send(data)
-                        ctx.response = {headers:{'content-type': 'application/json; charset=utf-8'}}
+                        ctx.response = {headers:{'content-type': 'application/json; charset=utf-8','access-control-allow-origin': '*'}}
                         ctx.body = JSON.stringify(data);
                         ctx.status = 200;
                     //});
@@ -502,7 +502,7 @@ router.get('/index2', async (ctx) => {
                         data[0][0] = ctx.query.date.substring(0, 2) + monthtext + ctx.query.date.substring(4, 8)
                     }
                     //res.send(data)
-                    ctx.response = {headers:{'content-type': 'application/json; charset=utf-8'}}
+                    ctx.response = {headers:{'content-type': 'application/json; charset=utf-8','access-control-allow-origin': '*'}}
                     ctx.body = JSON.stringify(data);
                     ctx.status = 200;
                 }
@@ -510,7 +510,7 @@ router.get('/index2', async (ctx) => {
             .catch((err) => {
                 let data = [["\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e17\u0e35\u0e481", 0], ["\u0e40\u0e25\u0e02\u0e2b\u0e19\u0e49\u0e323\u0e15\u0e31\u0e27", 0, 0], ["\u0e40\u0e25\u0e02\u0e17\u0e49\u0e32\u0e223\u0e15\u0e31\u0e27", 0, 0], ["\u0e40\u0e25\u0e02\u0e17\u0e49\u0e32\u0e222\u0e15\u0e31\u0e27", 0], ["\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e02\u0e49\u0e32\u0e07\u0e40\u0e04\u0e35\u0e22\u0e07\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e17\u0e35\u0e481", 0, 0], ["\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e17\u0e35\u0e482", 0, 0, 0, 0, 0], ["\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e17\u0e35\u0e483", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], ["\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e17\u0e35\u0e484", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], ["\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e17\u0e35\u0e485", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
                 //res.send(data)
-                ctx.response = {headers:{'content-type': 'application/json; charset=utf-8'}}
+                ctx.response = {headers:{'content-type': 'application/json; charset=utf-8','access-control-allow-origin': '*'}}
                 ctx.body = JSON.stringify(data);
                 ctx.status = 200;
                 console.log(err)
