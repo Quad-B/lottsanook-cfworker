@@ -491,7 +491,8 @@ router.get('/index2', async (ctx) => {
                         data[0][0] = ctx.query.date.substring(0, 2) + monthtext + ctx.query.date.substring(4, 8)
                     }
                     //res.send(data)
-                    ctx.body = data;
+                    ctx.response.headers = {'content-type': 'application/json'}
+                    ctx.body = JSON.stringify(data);
                     ctx.status = 200;
                 }
             })
