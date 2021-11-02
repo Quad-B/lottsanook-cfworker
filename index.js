@@ -521,11 +521,11 @@ router.get('/index2', async (ctx) => {
 });
 
 router.get('/reto', async (ctx) => {
-    if (!req.query.date) {
-        req.query.date = padLeadingZeros(new Date().getDate(), 2) + '' + padLeadingZeros((new Date().getMonth() + 1), 2) + '' + (new Date().getFullYear() + 543)
+    if (!ctx.query.date) {
+        ctx.query.date = padLeadingZeros(new Date().getDate(), 2) + '' + padLeadingZeros((new Date().getMonth() + 1), 2) + '' + (new Date().getFullYear() + 543)
     }
     //let monthtext
-    fetch('https://news.sanook.com/lotto/check/' + req.query.date + '/', { redirect: 'error' })
+    fetch('https://news.sanook.com/lotto/check/' + ctx.query.date + '/', { redirect: "manual" })
         .then(res => res.text())
         .then((body) => {
             ctx.body = 'yes';
