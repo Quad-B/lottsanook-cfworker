@@ -21,8 +21,10 @@ router.get('/', async (ctx) => {
                 .then(res => res.json())
                 .then((body) => {
                     //res.send(body)
-                    ctx.response = {headers:{'content-type': 'application/json; charset=utf-8'}}
+                    /*ctx.response = {headers:{'content-type': 'application/json; charset=utf-8'}}
                     ctx.body = JSON.stringify(body);
+                    ctx.status = 200;*/
+                    ctx.body = 'test';
                     ctx.status = 200;
                 })
         } else {
