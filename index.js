@@ -621,7 +621,7 @@ router.get('/gdpy', async (ctx) => {
 
 router.get('/checklottery', async (ctx) => {
     let result = ""
-    await fetch('https://lotapi2.pwisetthon.com/.netlify/functions/server/?date=' + ctx.query.date)
+    await fetch('https://lotapi.pwisetthon.com/?date=' + ctx.query.date)
         .then(res => res.json())
         .then((body) => {
             body.forEach(function (val, x) {
