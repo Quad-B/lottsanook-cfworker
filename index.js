@@ -569,11 +569,11 @@ router.get('/gdpy', async (ctx) => {
     let yearlist = []
     /*var fileContents = null;
     try {
-        if (req.query.year == new Date().getFullYear() + 543) {
-            fs.unlinkSync('tmp/' + req.query.year + '.txt');
+        if (ctx.query.year == new Date().getFullYear() + 543) {
+            fs.unlinkSync('tmp/' + ctx.query.year + '.txt');
             console.log('yes this year')
         }
-        fileContents = fs.readFileSync('tmp/' + req.query.year + '.txt');
+        fileContents = fs.readFileSync('tmp/' + ctx.query.year + '.txt');
     } catch (err) {
 
     }
@@ -608,7 +608,7 @@ router.get('/gdpy', async (ctx) => {
             for (const val of peryear) {
                 yearlist.push(val)
             }
-            //fs.writeFile('tmp/' + req.query.year + '.txt', JSON.stringify(yearlist), function (err) {
+            //fs.writeFile('tmp/' + ctx.query.year + '.txt', JSON.stringify(yearlist), function (err) {
             //if (err) throw err;
             //res.send(yearlist)
             ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
@@ -626,7 +626,7 @@ router.get('/checklottery', async (ctx) => {
         .then((body) => {
             body.forEach(function (val, x) {
                 val.forEach(function (superval, y) {
-                    if (superval == req.query.search || superval == req.query.search.substr(0, 3) || superval == req.query.search.substr(3, 6) || superval == req.query.search.substr(4, 6) && y != 0) {
+                    if (superval == ctx.query.search || superval == ctx.query.search.substr(0, 3) || superval == ctx.query.search.substr(3, 6) || superval == ctx.query.search.substr(4, 6) && y != 0) {
                         if (x == 0) {
                             result = result + "111111,";
                         }
@@ -674,7 +674,7 @@ router.get('/lastlot', async (ctx) => {
     await fetch('https://lottsanook.vercel.app/api/?date=' + lastdate)
         .then(res => res.json())
         .then((body) => {
-            if (req.query.info !== undefined) {
+            if (ctx.query.info !== undefined) {
                 viewer = {
                     info: {
                         date: lastdate
@@ -727,7 +727,7 @@ router.get('/getchit', async (ctx) => {
 router.get('/finddol', async (ctx) => {
     let channels
     let allwin = []
-    if (req.query.search.length > 3) {
+    if (ctx.query.search.length > 3) {
         await fetch('https://raw.githubusercontent.com/boyphongsakorn/testrepo/main/god')
             .then(res => res.json())
             .then((body) => {
@@ -741,7 +741,7 @@ router.get('/finddol', async (ctx) => {
                 .then((body) => {
                     for (let index = 0; index < body.length; index++) {
                         const element = body[index];
-                        if (element.includes(req.query.search.toString())) {
+                        if (element.includes(ctx.query.search.toString())) {
                             allwin.push(body[0][0])
                             //console.log('http://localhost:' + port + '/?date=' + val + '&from')
                         }
@@ -754,7 +754,7 @@ router.get('/finddol', async (ctx) => {
         ctx.body = JSON.stringify(allwin);
         ctx.status = 200;
     } else {
-        await fetch('https://astro.meemodel.com/%E0%B8%A7%E0%B8%B4%E0%B9%80%E0%B8%84%E0%B8%A3%E0%B8%B2%E0%B8%B0%E0%B8%AB%E0%B9%8C%E0%B9%80%E0%B8%A5%E0%B8%82%E0%B8%AB%E0%B8%A7%E0%B8%A2/' + req.query.search, { redirect: 'error' })
+        await fetch('https://astro.meemodel.com/%E0%B8%A7%E0%B8%B4%E0%B9%80%E0%B8%84%E0%B8%A3%E0%B8%B2%E0%B8%B0%E0%B8%AB%E0%B9%8C%E0%B9%80%E0%B8%A5%E0%B8%82%E0%B8%AB%E0%B8%A7%E0%B8%A2/' + ctx.query.search, { redirect: 'error' })
             .then(res => res.text())
             .then((body) => {
                 let $ = cheerio.load(body)
