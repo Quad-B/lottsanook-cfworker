@@ -22,7 +22,8 @@ router.get('/', async (ctx) => {
                 .then((body) => {
                     //res.send(body)
                     ctx.response = {headers:{'content-type': 'application/json; charset=utf-8','access-control-allow-origin': '*'}}
-                    ctx.body = JSON.stringify(body);
+                    //ctx.body = JSON.stringify(body);
+                    ctx.body = body;
                     ctx.status = 200;
                     /*ctx.body = 'test';
                     ctx.status = 200;*/
@@ -33,7 +34,8 @@ router.get('/', async (ctx) => {
                 .then((body) => {
                     //res.send(body)
                     ctx.response = {headers:{'content-type': 'application/json; charset=utf-8','access-control-allow-origin': '*'}}
-                    ctx.body = JSON.stringify(body);
+                    //ctx.body = JSON.stringify(body);
+                    ctx.body = body;
                     ctx.status = 200;
                     /*ctx.body = 'test';
                     ctx.status = 200;*/
