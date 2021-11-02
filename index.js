@@ -21,6 +21,7 @@ router.get('/', async (ctx) => {
                 .then(res => res.json())
                 .then((body) => {
                     //res.send(body)
+                    ctx.response = {headers:{'content-type': 'application/json'}}
                     ctx.body = JSON.stringify(body);
                     ctx.status = 200;
                 })
@@ -29,6 +30,7 @@ router.get('/', async (ctx) => {
                 .then(res => res.json())
                 .then((body) => {
                     //res.send(body)
+                    ctx.response = {headers:{'content-type': 'application/json'}}
                     ctx.body = JSON.stringify(body);
                     ctx.status = 200;
                 })
@@ -94,6 +96,7 @@ router.get('/', async (ctx) => {
 
                     if ($('div').toArray()[2] == null) {
                         //res.send(data)
+                        ctx.response = {headers:{'content-type': 'application/json'}}
                         ctx.body = JSON.stringify(data);
                         ctx.status = 200;
                         return
@@ -331,6 +334,7 @@ router.get('/', async (ctx) => {
                                 data[0][0] = ctx.query.date.substring(0, 2) + monthtext + ctx.query.date.substring(4, 8)
                             }
                             //res.send(data)
+                            ctx.response = {headers:{'content-type': 'application/json'}}
                             ctx.body = JSON.stringify(data);
                             ctx.status = 200;
                         //});
@@ -339,6 +343,7 @@ router.get('/', async (ctx) => {
                             data[0][0] = ctx.query.date.substring(0, 2) + monthtext + ctx.query.date.substring(4, 8)
                         }
                         //res.send(data)
+                        ctx.response = {headers:{'content-type': 'application/json'}}
                         ctx.body = JSON.stringify(data);
                         ctx.status = 200;
                     }
@@ -349,6 +354,7 @@ router.get('/', async (ctx) => {
                     res.write(JSON.stringify(data));
                     res.end();*/
                     //res.send(data)
+                    ctx.response = {headers:{'content-type': 'application/json'}}
                     ctx.body = JSON.stringify(data);
                     ctx.status = 200;
                 });
@@ -468,6 +474,7 @@ router.get('/index2', async (ctx) => {
                             data[0][0] = ctx.query.date.substring(0, 2) + monthtext + ctx.query.date.substring(4, 8)
                         }
                         //res.send(data)
+                        ctx.response = {headers:{'content-type': 'application/json'}}
                         ctx.body = JSON.stringify(data);
                         ctx.status = 200;
                     //});
