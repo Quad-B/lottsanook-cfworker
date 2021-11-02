@@ -525,7 +525,7 @@ router.get('/reto', async (ctx) => {
         ctx.query.date = padLeadingZeros(new Date().getDate(), 2) + '' + padLeadingZeros((new Date().getMonth() + 1), 2) + '' + (new Date().getFullYear() + 543)
     }
     //let monthtext
-    fetch('https://news.sanook.com/lotto/check/' + ctx.query.date + '/', { redirect: "manual" })
+    await fetch('https://news.sanook.com/lotto/check/' + ctx.query.date + '/', { redirect: "manual" })
         .then(res => res.text())
         .then((body) => {
             ctx.body = 'yes';
