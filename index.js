@@ -505,6 +505,8 @@ router.get('/index2', async (ctx) => {
     //}
 });
 
+router.allowMethods();
+
 addEventListener('fetch', event => {
     event.respondWith(router.resolve(event));
 })
