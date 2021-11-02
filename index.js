@@ -524,122 +524,99 @@ router.get('/reto', async (ctx) => {
     if (!ctx.query.date) {
         ctx.query.date = padLeadingZeros(new Date().getDate(), 2) + '' + padLeadingZeros((new Date().getMonth() + 1), 2) + '' + (new Date().getFullYear() + 543)
     }
-    //let monthtext
     await fetch('https://news.sanook.com/lotto/check/' + ctx.query.date + '/', { redirect: "error" })
         .then(res => res.text())
         .then((body) => {
             ctx.body = 'yes';
             ctx.status = 200;
-            //let data = [["\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e17\u0e35\u0e481", 0], ["\u0e40\u0e25\u0e02\u0e2b\u0e19\u0e49\u0e323\u0e15\u0e31\u0e27", 0, 0], ["\u0e40\u0e25\u0e02\u0e17\u0e49\u0e32\u0e223\u0e15\u0e31\u0e27", 0, 0], ["\u0e40\u0e25\u0e02\u0e17\u0e49\u0e32\u0e222\u0e15\u0e31\u0e27", 0], ["\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e02\u0e49\u0e32\u0e07\u0e40\u0e04\u0e35\u0e22\u0e07\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e17\u0e35\u0e481", 0, 0], ["\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e17\u0e35\u0e482", 0, 0, 0, 0, 0], ["\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e17\u0e35\u0e483", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], ["\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e17\u0e35\u0e484", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], ["\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e17\u0e35\u0e485", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-            //let $ = cheerio.load(body)
-
-            //console.log($('strong').toArray())
-
-            /*data[0][1] = $('strong').toArray()[0].firstChild.data
-            data[1][1] = $('strong').toArray()[1].firstChild.data
-            data[1][2] = $('strong').toArray()[2].firstChild.data
-            data[2][1] = $('strong').toArray()[3].firstChild.data
-            data[2][2] = $('strong').toArray()[4].firstChild.data
-            data[3][1] = $('strong').toArray()[5].firstChild.data
-            data[4][1] = $('strong').toArray()[6].firstChild.data
-            data[4][2] = $('strong').toArray()[7].firstChild.data*/
-
-            /*for (const type of $('strong').toArray()) {
-                var arrit = type.attribs.class + ''
-                if(!arrit.search('lotto__number')){
-                    //console.log(type.attribs.class)
-                    console.log(type.firstChild.data)
-                    data[0][1] = 
-                }
-            }*/
-
-            /*let k = 5
-            let i = 1
-            for (const type of $('span').toArray()) {
-                var arrit = type.attribs.class + ''
-                if (!arrit.search('lotto__number')) {
-                    //console.log(type.attribs.class)
-                    //console.log(type.firstChild.data)
-                    if (k == 5 && i <= 5) {
-                        data[k][i] = type.firstChild.data
-                        i++
-                    } else if (k == 5 && i > 5) {
-                        k++
-                        i = 1
-                    }
-                    if (k == 6 && i <= 10) {
-                        data[k][i] = type.firstChild.data
-                        i++
-                    } else if (k == 6 && i > 10) {
-                        k++
-                        i = 1
-                    }
-                    if (k == 7 && i <= 50) {
-                        data[k][i] = type.firstChild.data
-                        i++
-                    } else if (k == 7 && i > 50) {
-                        k++
-                        i = 1
-                    }
-                    if (k == 8 && i <= 100) {
-                        data[k][i] = type.firstChild.data
-                        i++
-                    }
-                }
-            }
-            if ($('div').toArray()[2].firstChild.data.match('~[0-9]+~')) {
-                fs.writeFile('tmp/' + req.query.date + '.txt', JSON.stringify(data), function (err) {
-                    if (err) throw err;
-                    //console.log('Saved!');
-                    if (req.query.from !== undefined) {
-                        switch (req.query.date.substr(2, 2)) {
-                            case '01': monthtext = "มกราคม"; break;
-                            case '02': monthtext = "กุมภาพันธ์"; break;
-                            case '03': monthtext = "มีนาคม"; break;
-                            case '04': monthtext = "เมษายน"; break;
-                            case '05': monthtext = "พฤษภาคม"; break;
-                            case '06': monthtext = "มิถุนายน"; break;
-                            case '07': monthtext = "กรกฎาคม"; break;
-                            case '08': monthtext = "สิงหาคม"; break;
-                            case '09': monthtext = "กันยายน"; break;
-                            case '10': monthtext = "ตุลาคม"; break;
-                            case '11': monthtext = "พฤศจิกายน"; break;
-                            case '12': monthtext = "ธันวาคม"; break;
-                        }
-
-                        data[0][0] = req.query.date.substring(0, 2) + monthtext + req.query.date.substring(4, 8)
-                    }
-                    res.send(data)
-                });
-            } else {
-                if (req.query.from !== undefined) {
-                    switch (req.query.date.substr(2, 2)) {
-                        case '01': monthtext = "มกราคม"; break;
-                        case '02': monthtext = "กุมภาพันธ์"; break;
-                        case '03': monthtext = "มีนาคม"; break;
-                        case '04': monthtext = "เมษายน"; break;
-                        case '05': monthtext = "พฤษภาคม"; break;
-                        case '06': monthtext = "มิถุนายน"; break;
-                        case '07': monthtext = "กรกฎาคม"; break;
-                        case '08': monthtext = "สิงหาคม"; break;
-                        case '09': monthtext = "กันยายน"; break;
-                        case '10': monthtext = "ตุลาคม"; break;
-                        case '11': monthtext = "พฤศจิกายน"; break;
-                        case '12': monthtext = "ธันวาคม"; break;
-                    }
-
-                    data[0][0] = req.query.date.substring(0, 2) + monthtext + req.query.date.substring(4, 8)
-                }
-                res.send(data)
-            }*/
         })
         .catch((err) => {
-            //let data = [["\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e17\u0e35\u0e481", 0], ["\u0e40\u0e25\u0e02\u0e2b\u0e19\u0e49\u0e323\u0e15\u0e31\u0e27", 0, 0], ["\u0e40\u0e25\u0e02\u0e17\u0e49\u0e32\u0e223\u0e15\u0e31\u0e27", 0, 0], ["\u0e40\u0e25\u0e02\u0e17\u0e49\u0e32\u0e222\u0e15\u0e31\u0e27", 0], ["\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e02\u0e49\u0e32\u0e07\u0e40\u0e04\u0e35\u0e22\u0e07\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e17\u0e35\u0e481", 0, 0], ["\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e17\u0e35\u0e482", 0, 0, 0, 0, 0], ["\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e17\u0e35\u0e483", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], ["\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e17\u0e35\u0e484", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], ["\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e17\u0e35\u0e485", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-            //res.send(data)
-            //console.error(err)
             ctx.body = 'no';
             ctx.status = 200;
         });
+});
+
+router.get('/god', async (ctx) => {
+    if(ctx.query.format == "thtext"){
+        await fetch('https://raw.githubusercontent.com/boyphongsakorn/testrepo/main/godthtext')
+        .then(res => res.json())
+        .then((body) => {
+            ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
+            ctx.body = JSON.stringify(body);
+            ctx.status = 200;
+        })
+    }else if(ctx.query.format == "combothtext"){
+        await fetch('https://raw.githubusercontent.com/boyphongsakorn/testrepo/main/godcombothtext')
+        .then(res => res.json())
+        .then((body) => {
+            ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
+            ctx.body = JSON.stringify(body);
+            ctx.status = 200;
+        })
+    }else{
+        await fetch('https://raw.githubusercontent.com/boyphongsakorn/testrepo/main/god')
+        .then(res => res.json())
+        .then((body) => {
+            ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
+            ctx.body = JSON.stringify(body);
+            ctx.status = 200;
+        })
+    }
+});
+
+router.get('/gdpy', async (ctx) => {
+    let peryear = []
+    let yearlist = []
+    /*var fileContents = null;
+    try {
+        if (req.query.year == new Date().getFullYear() + 543) {
+            fs.unlinkSync('tmp/' + req.query.year + '.txt');
+            console.log('yes this year')
+        }
+        fileContents = fs.readFileSync('tmp/' + req.query.year + '.txt');
+    } catch (err) {
+
+    }
+    if (fileContents) {
+        res.send(JSON.parse(fileContents));
+    } else {*/
+        await fetch('https://www.myhora.com/%E0%B8%AB%E0%B8%A7%E0%B8%A2/%E0%B8%9B%E0%B8%B5-' + ctx.query.year + '.aspx')
+            .then(res => res.text())
+            .then((body) => {
+                var $ = cheerio.load(body);
+                for (const val of $('font').toArray()) {
+                    if (val.firstChild.data.indexOf("ตรวจสลากกินแบ่งรัฐบาล") > -1) {
+                        let day = val.firstChild.data.split(" ").splice(2)
+                        let monthnum
+                        switch (day[2]) {
+                            case 'มกราคม': monthnum = "01"; break;
+                            case 'กุมภาพันธ์': monthnum = "02"; break;
+                            case 'มีนาคม': monthnum = "03"; break;
+                            case 'เมษายน': monthnum = "04"; break;
+                            case 'พฤษภาคม': monthnum = "05"; break;
+                            case 'มิถุนายน': monthnum = "06"; break;
+                            case 'กรกฎาคม': monthnum = "07"; break;
+                            case 'สิงหาคม': monthnum = "08"; break;
+                            case 'กันยายน': monthnum = "09"; break;
+                            case 'ตุลาคม': monthnum = "10"; break;
+                            case 'พฤศจิกายน': monthnum = "11"; break;
+                            case 'ธันวาคม': monthnum = "12"; break;
+                        }
+                        peryear.unshift(padLeadingZeros(day[0], 2) + monthnum + day[3])
+                    }
+                }
+                for (const val of peryear) {
+                    yearlist.push(val)
+                }
+                //fs.writeFile('tmp/' + req.query.year + '.txt', JSON.stringify(yearlist), function (err) {
+                    //if (err) throw err;
+                    //res.send(yearlist)
+                    ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
+                    ctx.body = JSON.stringify(yearlist);
+                    ctx.status = 200;
+                //});
+            })
+    //}
 });
 
 router.allowMethods();
