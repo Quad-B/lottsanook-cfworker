@@ -16,29 +16,29 @@ router.get('/', async (ctx) => {
         ctx.query.date = padLeadingZeros(new Date().getDate(), 2) + '' + padLeadingZeros((new Date().getMonth() + 1), 2) + '' + (new Date().getFullYear() + 543)
     }
     if (ctx.query.date.substring(4, 8) == new Date().getFullYear() + 543) {
-        //if (ctx.query.from !== undefined) {
+        if (ctx.query.from !== undefined) {
             await fetch('https://lottsanook-cfworker.boy1556.workers.dev/index2?date=' + ctx.query.date + '&from')
-                .then(res => res.text())
+                .then(res => res.json())
                 .then((body) => {
                     //res.send(body)
-                    /*ctx.response = {headers:{'content-type': 'application/json; charset=utf-8','access-control-allow-origin': '*'}}
+                    ctx.response = {headers:{'content-type': 'application/json; charset=utf-8','access-control-allow-origin': '*'}}
                     ctx.body = JSON.stringify(body);
-                    ctx.status = 200;*/
-                    ctx.body = 'test';
                     ctx.status = 200;
+                    /*ctx.body = 'test';
+                    ctx.status = 200;*/
                 })
-        /*} else {
+        } else {
             await fetch('https://lottsanook-cfworker.boy1556.workers.dev/index2?date=' + ctx.query.date)
                 .then(res => res.json())
                 .then((body) => {
                     //res.send(body)
-                    /*ctx.response = {headers:{'content-type': 'application/json; charset=utf-8','access-control-allow-origin': '*'}}
+                    ctx.response = {headers:{'content-type': 'application/json; charset=utf-8','access-control-allow-origin': '*'}}
                     ctx.body = JSON.stringify(body);
-                    ctx.status = 200;*/
-                    /*ctx.body = 'test';
                     ctx.status = 200;
+                    /*ctx.body = 'test';
+                    ctx.status = 200;*/
                 })
-        }*/
+        }
     } else {
         let data = ""
         let monthtext
