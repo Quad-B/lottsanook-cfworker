@@ -12,8 +12,8 @@ function padLeadingZeros(num, size) {
 }
 
 router.get('/', async (ctx) => {
-        var raw
-    if (!req.query.date) {
+    var raw
+    if (!ctx.query.date) {
         raw = JSON.stringify({
             date: padLeadingZeros(new Date().getDate(), 2),
             month: padLeadingZeros((new Date().getMonth() + 1), 2),
@@ -60,8 +60,8 @@ router.get('/', async (ctx) => {
             for (let [index, val] of result["response"]["data"]["fifth"]["number"].entries()) {
                 data[8][index + 1] = val["value"]
             }
-            if (req.query.from !== undefined) {
-                switch (req.query.date.substr(2, 2)) {
+            if (ctx.query.from !== undefined) {
+                switch (ctx.query.date.substr(2, 2)) {
                     case '01':
                         monthtext = "มกราคม";
                         break;
@@ -100,7 +100,7 @@ router.get('/', async (ctx) => {
                         break;
                 }
 
-                data[0][0] = req.query.date.substring(0, 2) + monthtext + req.query.date.substring(4, 8)
+                data[0][0] = ctx.query.date.substring(0, 2) + monthtext + ctx.query.date.substring(4, 8)
             }
             //res.send(data)
             ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
@@ -110,8 +110,8 @@ router.get('/', async (ctx) => {
         .catch(error => {
             /*let data = [["\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e17\u0e35\u0e481", 0], ["\u0e40\u0e25\u0e02\u0e2b\u0e19\u0e49\u0e323\u0e15\u0e31\u0e27", 0, 0], ["\u0e40\u0e25\u0e02\u0e17\u0e49\u0e32\u0e223\u0e15\u0e31\u0e27", 0, 0], ["\u0e40\u0e25\u0e02\u0e17\u0e49\u0e32\u0e222\u0e15\u0e31\u0e27", 0], ["\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e02\u0e49\u0e32\u0e07\u0e40\u0e04\u0e35\u0e22\u0e07\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e17\u0e35\u0e481", 0, 0], ["\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e17\u0e35\u0e482", 0, 0, 0, 0, 0], ["\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e17\u0e35\u0e483", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], ["\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e17\u0e35\u0e484", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], ["\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e17\u0e35\u0e485", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
             res.send(data)*/
-            if (req.query.from !== undefined) {
-                fetch('https://lottsanook.vercel.app/api/index2?date=' + req.query.date + '&from')
+            if (ctx.query.from !== undefined) {
+                fetch('https://lottsanook.vercel.app/api/index2?date=' + ctx.query.date + '&from')
                     .then(res => res.json())
                     .then((body) => {
                         //res.send(body)
@@ -120,7 +120,7 @@ router.get('/', async (ctx) => {
                         ctx.status = 200;
                     })
             } else {
-                fetch('https://lottsanook.vercel.app/api/index2?date=' + req.query.date)
+                fetch('https://lottsanook.vercel.app/api/index2?date=' + ctx.query.date)
                     .then(res => res.json())
                     .then((body) => {
                         //res.send(body)
