@@ -21,9 +21,9 @@ router.get('/', async (ctx) => {
         });
     } else {
         raw = JSON.stringify({
-            date: req.query.date.substr(0, 2),
-            month: req.query.date.substr(2, 2),
-            year: parseInt(req.query.date.substr(4, 4)) - 543
+            date: ctx.query.date.substr(0, 2),
+            month: ctx.query.date.substr(2, 2),
+            year: parseInt(ctx.query.date.substr(4, 4)) - 543
         });
     }
     var requestOptions = {
