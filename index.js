@@ -109,9 +109,33 @@ router.get('/', async (ctx) => {
                 ctx.body = JSON.stringify(data);
                 ctx.status = 200;
             }else{
-                ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
+                async function doStuff() {
+                    if (ctx.query.from !== undefined) {
+                        await fetch('https://lottsanook.vercel.app/api/index2?date=' + ctx.query.date + '&from')
+                          .then(res => res.json())
+                          .then((body) => {
+                              //res.send(body)
+                              ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
+                              ctx.body = JSON.stringify(body);
+                              ctx.status = 200;
+                          })
+                    } else {
+                        await fetch('https://lottsanook.vercel.app/api/index2?date=' + ctx.query.date)
+                          .then(res => res.json())
+                          .then((body) => {
+                              //res.send(body)
+                              ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
+                              ctx.body = JSON.stringify(body);
+                              ctx.status = 200;
+                        })
+                    }
+                }
+      
+                doStuff();
+
+                /*ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
                 ctx.body = JSON.stringify(['fail']);
-                ctx.status = 200;
+                ctx.status = 200;*/
             }
         })
         .catch(error => {
