@@ -14,10 +14,11 @@ function padLeadingZeros(num, size) {
 router.get('/', async (ctx) => {
     var raw
     if (!ctx.query.date) {
+        ctx.query.date = padLeadingZeros(new Date().getDate(), 2) + '' + padLeadingZeros((new Date().getMonth() + 1), 2) + '' + (new Date().getFullYear() + 543)
         raw = JSON.stringify({
             date: padLeadingZeros(new Date().getDate(), 2),
             month: padLeadingZeros((new Date().getMonth() + 1), 2),
-            year: new Date().getFullYear()
+            year: parseInt(ctx.query.date.substr(4, 4)) - 543
         });
     } else {
         raw = JSON.stringify({
