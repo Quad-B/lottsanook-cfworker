@@ -115,23 +115,32 @@ router.get('/', async (ctx) => {
                           .then(res => res.json())
                           .then((body) => {
                               //res.send(body)
-                              ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
+                              /*ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
                               ctx.body = JSON.stringify(body);
-                              ctx.status = 200;
+                              ctx.status = 200;*/
+                              return body
                           })
                     } else {
                         await fetch('https://lottsanook.vercel.app/api/index2?date=' + ctx.query.date)
                           .then(res => res.json())
                           .then((body) => {
                               //res.send(body)
-                              ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
+                              /*ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
                               ctx.body = JSON.stringify(body);
-                              ctx.status = 200;
+                              ctx.status = 200;*/
+                              return body
                         })
                     }
                 }
-      
-                doStuff();
+                
+                /*ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
+                ctx.body = JSON.stringify(body);
+                ctx.status = 200;*/
+                doStuff().then(result => {
+                    ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
+                    ctx.body = JSON.stringify(result);
+                    ctx.status = 200;
+                })
 
                 /*ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
                 ctx.body = JSON.stringify(['fail']);
