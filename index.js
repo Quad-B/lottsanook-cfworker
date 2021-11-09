@@ -27,6 +27,33 @@ router.get('/', async (ctx) => {
             year: parseInt(ctx.query.date.substr(4, 4)) - 543
         });
     }
+    if (ctx.query.date.substring(4, 8) == new Date().getFullYear() + 543) {
+        if (ctx.query.from !== undefined) {
+            await fetch('https://lottsanook.vercel.app/api/index3?date=' + ctx.query.date + '&from')
+                .then(res => res.json())
+                .then((body) => {
+                    //res.send(body)
+                    ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
+                    ctx.body = JSON.stringify(body);
+                    //ctx.body = body;
+                    ctx.status = 200;
+                    /*ctx.body = 'test';
+                    ctx.status = 200;*/
+                })
+        } else {
+            await fetch('https://lottsanook.vercel.app/api/index3?date=' + ctx.query.date)
+                .then(res => res.json())
+                .then((body) => {
+                    //res.send(body)
+                    ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
+                    ctx.body = JSON.stringify(body);
+                    //ctx.body = body;
+                    ctx.status = 200;
+                    /*ctx.body = 'test';
+                    ctx.status = 200;*/
+                })
+        }
+    } else {
     var requestOptions = {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
@@ -124,6 +151,7 @@ router.get('/', async (ctx) => {
             ctx.status = 200;
         }
         //console.log(data)
+    }
     }
 
     /*await fetch("https://www.glo.or.th/api/lottery/getLotteryAward", requestOptions)
@@ -1059,6 +1087,108 @@ router.get('/finddol', async (ctx) => {
                 ctx.status = 200;
             });
     }
+});
+
+router.get('/lotnews', async (ctx) => {
+    let arrayofnews = [0,0,0]
+    let check = ctx.query.count % 3
+    if (check != 0) {
+        if(check == 1){
+            //ceil number
+            arrayofnews[0] = Math.floor(ctx.query.count / 3)
+            arrayofnews[1] = Math.ceil(ctx.query.count / 3)
+            //floor number
+            arrayofnews[2] = Math.floor(ctx.query.count / 3)
+        }else{
+            //ceil number
+            arrayofnews[0] = Math.floor(ctx.query.count / 3)
+            arrayofnews[1] = Math.ceil(ctx.query.count / 3)
+            //floor number
+            arrayofnews[2] = Math.floor(ctx.query.count / 3)+1
+        }
+    }else{
+        arrayofnews[0] = ctx.query.count/ 3
+        arrayofnews[1] = ctx.query.count/ 3
+        arrayofnews[2] = ctx.query.count / 3
+    }
+    let array = [];
+    let response = await fetch('https://www.brighttv.co.th/tag/%e0%b9%80%e0%b8%a5%e0%b8%82%e0%b9%80%e0%b8%94%e0%b9%87%e0%b8%94/feed')
+    let xml = await response.text()
+    let $ = cheerio.load(xml)
+    let news = $('item')
+    //loop news 5 time and push to array
+    console.log(arrayofnews)
+    for (let i = 0; i < arrayofnews[0]; i++) {
+        const title = news.eq(i).find('title').text()
+        const link = news.eq(i).find('link')[0].next.data
+        const description = news.eq(i).find('description').text()
+        const pubDate = news.eq(i).find('pubDate').text()
+        /*const date = pubDate.slice(0, 10)
+        const time = pubDate.slice(11, 19)
+        const dateTime = date + ' ' + time*/
+        const json = {
+            title: title,
+            //remove \n and \t in string
+            link: link.replace(/\n|\t/g, ''),
+            description: description.substring(0, 100) + '...',
+            pubDate: pubDate,
+        }
+        array.push(json)
+    }
+
+    response = await fetch('https://www.khaosod.co.th/tag/%e0%b9%80%e0%b8%a5%e0%b8%82%e0%b9%80%e0%b8%94%e0%b9%87%e0%b8%94/feed')
+    xml = await response.text()
+    $ = cheerio.load(xml)
+    news = $('item')
+    //loop news 5 time and push to array
+    for (let i = 0; i < arrayofnews[1]; i++) {
+        const title = news.eq(i).find('title').text()
+        const link = news.eq(i).find('link')[0].next.data
+        const description = news.eq(i).find('description').text()
+        const pubDate = news.eq(i).find('pubDate').text()
+        // image
+        const image = news.eq(i).find('media\\:thumbnail').attr('url')
+        /*const date = pubDate.slice(0, 10)
+        const time = pubDate.slice(11, 19)
+        const dateTime = date + ' ' + time*/
+        const json = {
+            title: title,
+            //remove \n and \t in string
+            link: link.replace(/\n|\t/g, ''),
+            description: description.substring(0, 100) + '...',
+            image: image,
+            pubDate: pubDate,
+        }
+        array.push(json)
+    }
+
+    response = await fetch('https://www.brighttv.co.th/tag/%E0%B8%AB%E0%B8%A7%E0%B8%A2%E0%B9%81%E0%B8%A1%E0%B9%88%E0%B8%99%E0%B9%89%E0%B8%B3%E0%B8%AB%E0%B8%99%E0%B8%B6%E0%B9%88%E0%B8%87/feed')
+    xml = await response.text()
+    $ = cheerio.load(xml)
+    news = $('item')
+    //loop news 5 time and push to array
+    for (let i = 0; i < arrayofnews[2]; i++) {
+        const title = news.eq(i).find('title').text()
+        const link = news.eq(i).find('link')[0].next.data
+        const description = news.eq(i).find('description').text()
+        const pubDate = news.eq(i).find('pubDate').text()
+        /*const date = pubDate.slice(0, 10)
+        const time = pubDate.slice(11, 19)
+        const dateTime = date + ' ' + time*/
+        const json = {
+            title: title,
+            //remove \n and \t in string
+            link: link.replace(/\n|\t/g, ''),
+            description: description.substring(0, 100) + '...',
+            pubDate: pubDate,
+        }
+        array.push(json)
+    }
+
+    //res.send(array)
+    ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
+    ctx.body = JSON.stringify(array);
+    ctx.status = 200;
 });
 
 router.allowMethods();
