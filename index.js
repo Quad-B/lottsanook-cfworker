@@ -110,11 +110,19 @@ router.get('/', async (ctx) => {
         ctx.status = 200;
     }else{
         console.log('no')
-        const res = await fetch('https://lottsanook.vercel.app/api/index2?date=' + ctx.query.date + '&from');
-        const data = await res.json();//assuming data is json
-        ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
-        ctx.body = JSON.stringify(data);
-        ctx.status = 200;
+        if (ctx.query.from !== undefined) {
+            const res = await fetch('https://lottsanook.vercel.app/api/index2?date=' + ctx.query.date + '&from');
+            const data = await res.json();//assuming data is json
+            ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
+            ctx.body = JSON.stringify(data);
+            ctx.status = 200;
+        }else{
+            const res = await fetch('https://lottsanook.vercel.app/api/index2?date=' + ctx.query.date);
+            const data = await res.json();//assuming data is json
+            ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
+            ctx.body = JSON.stringify(data);
+            ctx.status = 200;
+        }
         //console.log(data)
     }
 
