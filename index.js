@@ -27,6 +27,33 @@ router.get('/', async (ctx) => {
             year: parseInt(ctx.query.date.substr(4, 4)) - 543
         });
     }
+    if (ctx.query.date.substring(4, 8) == new Date().getFullYear() + 543) {
+        if (ctx.query.from !== undefined) {
+            await fetch('https://lottsanook.vercel.app/api/index3?date=' + ctx.query.date + '&from')
+                .then(res => res.json())
+                .then((body) => {
+                    //res.send(body)
+                    ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
+                    ctx.body = JSON.stringify(body);
+                    //ctx.body = body;
+                    ctx.status = 200;
+                    /*ctx.body = 'test';
+                    ctx.status = 200;*/
+                })
+        } else {
+            await fetch('https://lottsanook.vercel.app/api/index3?date=' + ctx.query.date)
+                .then(res => res.json())
+                .then((body) => {
+                    //res.send(body)
+                    ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
+                    ctx.body = JSON.stringify(body);
+                    //ctx.body = body;
+                    ctx.status = 200;
+                    /*ctx.body = 'test';
+                    ctx.status = 200;*/
+                })
+        }
+    } else {
     var requestOptions = {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
@@ -116,6 +143,7 @@ router.get('/', async (ctx) => {
         ctx.body = JSON.stringify(data);
         ctx.status = 200;
         //console.log(data)
+    }
     }
 
     /*await fetch("https://www.glo.or.th/api/lottery/getLotteryAward", requestOptions)
