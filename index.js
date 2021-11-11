@@ -54,104 +54,104 @@ router.get('/', async (ctx) => {
                 })
         }
     } else {
-    var requestOptions = {
-        method: 'POST',
-        headers: { "Content-Type": "application/json" },
-        body: raw,
-        redirect: 'follow'
-    };
+        var requestOptions = {
+            method: 'POST',
+            headers: { "Content-Type": "application/json" },
+            body: raw,
+            redirect: 'follow'
+        };
 
-    const res = await fetch("https://www.glo.or.th/api/lottery/getLotteryAward", requestOptions);
-    const result = await res.json();//assuming data is json
-    console.log(result)
-    if(result["response"] != null){
-        let data = [["\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e17\u0e35\u0e481", 0], ["\u0e40\u0e25\u0e02\u0e2b\u0e19\u0e49\u0e323\u0e15\u0e31\u0e27", 0, 0], ["\u0e40\u0e25\u0e02\u0e17\u0e49\u0e32\u0e223\u0e15\u0e31\u0e27", 0, 0], ["\u0e40\u0e25\u0e02\u0e17\u0e49\u0e32\u0e222\u0e15\u0e31\u0e27", 0], ["\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e02\u0e49\u0e32\u0e07\u0e40\u0e04\u0e35\u0e22\u0e07\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e17\u0e35\u0e481", 0, 0], ["\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e17\u0e35\u0e482", 0, 0, 0, 0, 0], ["\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e17\u0e35\u0e483", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], ["\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e17\u0e35\u0e484", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], ["\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e17\u0e35\u0e485", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-        data[0][1] = result["response"]["data"]["first"]["number"][0]["value"]
-        for (let [index, val] of result["response"]["data"]["last3f"]["number"].entries()) {
-            data[1][index + 1] = val["value"]
-        }
-        for (let [index, val] of result["response"]["data"]["last3b"]["number"].entries()) {
-            data[2][index + 1] = val["value"]
-        }
-        data[3][1] = result["response"]["data"]["last2"]["number"][0]["value"]
-        for (let [index, val] of result["response"]["data"]["near1"]["number"].entries()) {
-            data[4][index + 1] = val["value"]
-        }
-        for (let [index, val] of result["response"]["data"]["second"]["number"].entries()) {
-            data[5][index + 1] = val["value"]
-        }
-        for (let [index, val] of result["response"]["data"]["third"]["number"].entries()) {
-            data[6][index + 1] = val["value"]
-        }
-        for (let [index, val] of result["response"]["data"]["fourth"]["number"].entries()) {
-            data[7][index + 1] = val["value"]
-        }
-        for (let [index, val] of result["response"]["data"]["fifth"]["number"].entries()) {
-            data[8][index + 1] = val["value"]
-        }
-        if (ctx.query.from !== undefined) {
-            switch (ctx.query.date.substr(2, 2)) {
-                case '01':
-                    monthtext = "มกราคม";
-                    break;
-                case '02':
-                    monthtext = "กุมภาพันธ์";
-                    break;
-                case '03':
-                    monthtext = "มีนาคม";
-                    break;
-                case '04':
-                    monthtext = "เมษายน";
-                    break;
-                case '05':
-                    monthtext = "พฤษภาคม";
-                    break;
-                case '06':
-                    monthtext = "มิถุนายน";
-                    break;
-                case '07':
-                    monthtext = "กรกฎาคม";
-                    break;
-                case '08':
-                    monthtext = "สิงหาคม";
-                    break;
-                case '09':
-                    monthtext = "กันยายน";
-                    break;
-                case '10':
-                    monthtext = "ตุลาคม";
-                    break;
-                case '11':
-                    monthtext = "พฤศจิกายน";
-                    break;
-                case '12':
-                    monthtext = "ธันวาคม";
-                    break;
+        const res = await fetch("https://www.glo.or.th/api/lottery/getLotteryAward", requestOptions);
+        const result = await res.json();//assuming data is json
+        console.log(result)
+        if (result["response"] != null) {
+            let data = [["\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e17\u0e35\u0e481", 0], ["\u0e40\u0e25\u0e02\u0e2b\u0e19\u0e49\u0e323\u0e15\u0e31\u0e27", 0, 0], ["\u0e40\u0e25\u0e02\u0e17\u0e49\u0e32\u0e223\u0e15\u0e31\u0e27", 0, 0], ["\u0e40\u0e25\u0e02\u0e17\u0e49\u0e32\u0e222\u0e15\u0e31\u0e27", 0], ["\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e02\u0e49\u0e32\u0e07\u0e40\u0e04\u0e35\u0e22\u0e07\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e17\u0e35\u0e481", 0, 0], ["\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e17\u0e35\u0e482", 0, 0, 0, 0, 0], ["\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e17\u0e35\u0e483", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], ["\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e17\u0e35\u0e484", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], ["\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e17\u0e35\u0e485", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+            data[0][1] = result["response"]["data"]["first"]["number"][0]["value"]
+            for (let [index, val] of result["response"]["data"]["last3f"]["number"].entries()) {
+                data[1][index + 1] = val["value"]
             }
+            for (let [index, val] of result["response"]["data"]["last3b"]["number"].entries()) {
+                data[2][index + 1] = val["value"]
+            }
+            data[3][1] = result["response"]["data"]["last2"]["number"][0]["value"]
+            for (let [index, val] of result["response"]["data"]["near1"]["number"].entries()) {
+                data[4][index + 1] = val["value"]
+            }
+            for (let [index, val] of result["response"]["data"]["second"]["number"].entries()) {
+                data[5][index + 1] = val["value"]
+            }
+            for (let [index, val] of result["response"]["data"]["third"]["number"].entries()) {
+                data[6][index + 1] = val["value"]
+            }
+            for (let [index, val] of result["response"]["data"]["fourth"]["number"].entries()) {
+                data[7][index + 1] = val["value"]
+            }
+            for (let [index, val] of result["response"]["data"]["fifth"]["number"].entries()) {
+                data[8][index + 1] = val["value"]
+            }
+            if (ctx.query.from !== undefined) {
+                switch (ctx.query.date.substr(2, 2)) {
+                    case '01':
+                        monthtext = "มกราคม";
+                        break;
+                    case '02':
+                        monthtext = "กุมภาพันธ์";
+                        break;
+                    case '03':
+                        monthtext = "มีนาคม";
+                        break;
+                    case '04':
+                        monthtext = "เมษายน";
+                        break;
+                    case '05':
+                        monthtext = "พฤษภาคม";
+                        break;
+                    case '06':
+                        monthtext = "มิถุนายน";
+                        break;
+                    case '07':
+                        monthtext = "กรกฎาคม";
+                        break;
+                    case '08':
+                        monthtext = "สิงหาคม";
+                        break;
+                    case '09':
+                        monthtext = "กันยายน";
+                        break;
+                    case '10':
+                        monthtext = "ตุลาคม";
+                        break;
+                    case '11':
+                        monthtext = "พฤศจิกายน";
+                        break;
+                    case '12':
+                        monthtext = "ธันวาคม";
+                        break;
+                }
 
-            data[0][0] = ctx.query.date.substring(0, 2) + monthtext + ctx.query.date.substring(4, 8)
-        }
-        //res.send(data)
-        ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
-        ctx.body = JSON.stringify(data);
-        ctx.status = 200;
-    }else{
-        console.log('no')
-        if (ctx.query.from !== undefined) {
-            const res = await fetch('https://lottsanook.vercel.app/api/index3?date=' + ctx.query.date + '&from');
-            const data = await res.json();//assuming data is json
+                data[0][0] = ctx.query.date.substring(0, 2) + monthtext + ctx.query.date.substring(4, 8)
+            }
+            //res.send(data)
             ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
             ctx.body = JSON.stringify(data);
             ctx.status = 200;
-        }else{
-            const res = await fetch('https://lottsanook.vercel.app/api/index3?date=' + ctx.query.date);
-            const data = await res.json();//assuming data is json
-            ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
-            ctx.body = JSON.stringify(data);
-            ctx.status = 200;
+        } else {
+            console.log('no')
+            if (ctx.query.from !== undefined) {
+                const res = await fetch('https://lottsanook.vercel.app/api/index3?date=' + ctx.query.date + '&from');
+                const data = await res.json();//assuming data is json
+                ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
+                ctx.body = JSON.stringify(data);
+                ctx.status = 200;
+            } else {
+                const res = await fetch('https://lottsanook.vercel.app/api/index3?date=' + ctx.query.date);
+                const data = await res.json();//assuming data is json
+                ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
+                ctx.body = JSON.stringify(data);
+                ctx.status = 200;
+            }
+            //console.log(data)
         }
-        //console.log(data)
-    }
     }
 
     /*await fetch("https://www.glo.or.th/api/lottery/getLotteryAward", requestOptions)
@@ -238,62 +238,62 @@ router.get('/', async (ctx) => {
                               /*ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
                               ctx.body = JSON.stringify(body);
                               ctx.status = 200;*/
-                              //return body
-                          /*})
-                    } else {*/
-                        /*fetch('https://lottsanook.vercel.app/api/index2?date=' + ctx.query.date)
-                          .then(res => res.json())
-                          .then((body) => {
-                              //res.send(body)
-                              ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
-                              ctx.body = JSON.stringify(['fail']);
-                              ctx.status = 200;
-                              //return body
-                        })*/
-                    //}
-                //}
-                
-                /*ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
-                ctx.body = JSON.stringify(['fail']);
+    //return body
+    /*})
+} else {*/
+    /*fetch('https://lottsanook.vercel.app/api/index2?date=' + ctx.query.date)
+      .then(res => res.json())
+      .then((body) => {
+          //res.send(body)
+          ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
+          ctx.body = JSON.stringify(['fail']);
+          ctx.status = 200;
+          //return body
+    })*/
+    //}
+    //}
+
+    /*ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
+    ctx.body = JSON.stringify(['fail']);
+    ctx.status = 200;
+    /*doStuff().then(result => {
+        ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
+        ctx.body = JSON.stringify(result);
+        ctx.status = 200;
+    })*/
+
+    /*ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
+    ctx.body = JSON.stringify(['fail']);
+    ctx.status = 200;*/
+    /*}
+})
+.catch(error => {
+    /*let data = [["\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e17\u0e35\u0e481", 0], ["\u0e40\u0e25\u0e02\u0e2b\u0e19\u0e49\u0e323\u0e15\u0e31\u0e27", 0, 0], ["\u0e40\u0e25\u0e02\u0e17\u0e49\u0e32\u0e223\u0e15\u0e31\u0e27", 0, 0], ["\u0e40\u0e25\u0e02\u0e17\u0e49\u0e32\u0e222\u0e15\u0e31\u0e27", 0], ["\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e02\u0e49\u0e32\u0e07\u0e40\u0e04\u0e35\u0e22\u0e07\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e17\u0e35\u0e481", 0, 0], ["\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e17\u0e35\u0e482", 0, 0, 0, 0, 0], ["\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e17\u0e35\u0e483", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], ["\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e17\u0e35\u0e484", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], ["\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e17\u0e35\u0e485", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+    res.send(data)*/
+    /*async function doStuff() {
+      if (ctx.query.from !== undefined) {
+        await fetch('https://lottsanook.vercel.app/api/index2?date=' + ctx.query.date + '&from')
+            .then(res => res.json())
+            .then((body) => {
+                //res.send(body)
+                ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
+                ctx.body = JSON.stringify(body);
                 ctx.status = 200;
-                /*doStuff().then(result => {
-                    ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
-                    ctx.body = JSON.stringify(result);
-                    ctx.status = 200;
-                })*/
+            })
+        } else {
+        await fetch('https://lottsanook.vercel.app/api/index2?date=' + ctx.query.date)
+            .then(res => res.json())
+            .then((body) => {
+                //res.send(body)
+                ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
+                ctx.body = JSON.stringify(body);
+                ctx.status = 200;
+            })
+        }
+    }
 
-                /*ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
-                ctx.body = JSON.stringify(['fail']);
-                ctx.status = 200;*/
-            /*}
-        })
-        .catch(error => {
-            /*let data = [["\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e17\u0e35\u0e481", 0], ["\u0e40\u0e25\u0e02\u0e2b\u0e19\u0e49\u0e323\u0e15\u0e31\u0e27", 0, 0], ["\u0e40\u0e25\u0e02\u0e17\u0e49\u0e32\u0e223\u0e15\u0e31\u0e27", 0, 0], ["\u0e40\u0e25\u0e02\u0e17\u0e49\u0e32\u0e222\u0e15\u0e31\u0e27", 0], ["\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e02\u0e49\u0e32\u0e07\u0e40\u0e04\u0e35\u0e22\u0e07\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e17\u0e35\u0e481", 0, 0], ["\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e17\u0e35\u0e482", 0, 0, 0, 0, 0], ["\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e17\u0e35\u0e483", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], ["\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e17\u0e35\u0e484", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], ["\u0e23\u0e32\u0e07\u0e27\u0e31\u0e25\u0e17\u0e35\u0e485", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-            res.send(data)*/
-            /*async function doStuff() {
-              if (ctx.query.from !== undefined) {
-                await fetch('https://lottsanook.vercel.app/api/index2?date=' + ctx.query.date + '&from')
-                    .then(res => res.json())
-                    .then((body) => {
-                        //res.send(body)
-                        ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
-                        ctx.body = JSON.stringify(body);
-                        ctx.status = 200;
-                    })
-                } else {
-                await fetch('https://lottsanook.vercel.app/api/index2?date=' + ctx.query.date)
-                    .then(res => res.json())
-                    .then((body) => {
-                        //res.send(body)
-                        ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
-                        ctx.body = JSON.stringify(body);
-                        ctx.status = 200;
-                    })
-                }
-            }
-
-            doStuff();*/
-        //});
+    doStuff();*/
+    //});
 });
 
 router.get('/index2', async (ctx) => {
@@ -1090,25 +1090,25 @@ router.get('/finddol', async (ctx) => {
 });
 
 router.get('/lotnews', async (ctx) => {
-    let arrayofnews = [0,0,0]
+    let arrayofnews = [0, 0, 0]
     let check = ctx.query.count % 3
     if (check != 0) {
-        if(check == 1){
+        if (check == 1) {
             //ceil number
             arrayofnews[0] = Math.floor(ctx.query.count / 3)
             arrayofnews[1] = Math.ceil(ctx.query.count / 3)
             //floor number
             arrayofnews[2] = Math.floor(ctx.query.count / 3)
-        }else{
+        } else {
             //ceil number
             arrayofnews[0] = Math.floor(ctx.query.count / 3)
             arrayofnews[1] = Math.ceil(ctx.query.count / 3)
             //floor number
-            arrayofnews[2] = Math.floor(ctx.query.count / 3)+1
+            arrayofnews[2] = Math.floor(ctx.query.count / 3) + 1
         }
-    }else{
-        arrayofnews[0] = ctx.query.count/ 3
-        arrayofnews[1] = ctx.query.count/ 3
+    } else {
+        arrayofnews[0] = ctx.query.count / 3
+        arrayofnews[1] = ctx.query.count / 3
         arrayofnews[2] = ctx.query.count / 3
     }
     let array = [];
