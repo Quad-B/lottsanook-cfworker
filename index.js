@@ -27,7 +27,10 @@ router.get('/', async (ctx) => {
             year: parseInt(ctx.query.date.substr(4, 4)) - 543
         });
     }
-    if (ctx.query.date.substring(4, 8) == new Date().getFullYear() + 543) {
+    var date = new Date(parseInt(ctx.query.date.substr(4, 4)) - 543, parseInt(ctx.query.date.substr(2, 2)) - 1, parseInt(ctx.query.date.substr(0, 2)) + 1);
+    var today = new Date();
+    //if (ctx.query.date.substring(4, 8) == new Date().getFullYear() + 543) {
+    if (date.getTime() === today.getTime() || date > today) {
         if (ctx.query.from !== undefined) {
             await fetch('https://lottsanook.vercel.app/api/index3?date=' + ctx.query.date + '&from')
                 .then(res => res.json())
