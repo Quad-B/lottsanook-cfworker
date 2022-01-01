@@ -954,11 +954,24 @@ router.get('/checklottery', async (ctx) => {
 router.get('/lastlot', async (ctx) => {
     let lastdate
     let viewer
-    await fetch('https://lottsanook.vercel.app/api/gdpy?year=' + (new Date().getFullYear() + 543))
+    await fetch('https://lottsanook.vercel.app/api/gdpy?year=' + port + '/gdpy?year=' + (new Date().getFullYear() + 543))
         .then(res => res.json())
         .then((body) => {
             lastdate = body[body.length - 1]
         })
+    // if lastdate is null or undefined then fetch last year
+    if (lastdate == undefined || lastdate == null) {
+        await fetch('https://lottsanook.vercel.app/api/gdpy?year=' + port + '/gdpy?year=' + (new Date().getFullYear() + 543 - 1))
+            .then(res => res.json())
+            .then((body) => {
+                lastdate = body[body.length - 1]
+            })
+    }
+    /*await fetch('https://lottsanook.vercel.app/api/gdpy?year=' + (new Date().getFullYear() + 543))
+        .then(res => res.json())
+        .then((body) => {
+            lastdate = body[body.length - 1]
+        })*/
     await fetch('https://lottsanook.vercel.app/api/?date=' + lastdate)
         .then(res => res.json())
         .then((body) => {
