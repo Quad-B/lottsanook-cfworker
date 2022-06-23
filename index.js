@@ -1,5 +1,5 @@
 const Router = require('cloudworker-router');
-const fetch = require('node-fetch')
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 const cheerio = require('cheerio')
 
 const router = new Router();
