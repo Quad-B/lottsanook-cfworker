@@ -1,8 +1,8 @@
 name = "lottsanook-cfworker"
-type = "webpack"
 account_id = '2d33facc9cdbb91215d1312e5e4d54fe'
 zone_id = ''
 usage_model = ''
 compatibility_flags = []
 workers_dev = true
-compatibility_date = "2021-11-02"
+compatibility_date = "2022-06-23"
+
