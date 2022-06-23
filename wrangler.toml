@@ -1,6 +1,6 @@
 name = "lottsanook-cfworker"
 type = "webpack"
-route = "routes" | { pattern = "*", zone_id = "ZONE_ID" } | { pattern = "*", zone_name = "ZONE_NAME" }
+route = ["routes"] | [{ pattern = "*", zone_id = "ZONE_ID" }] | [{ pattern = "*", zone_name = "ZONE_NAME" }]
 zone_id = ''
 usage_model = "bundled" | "unbound"
 compatibility_flags = []
