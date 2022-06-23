@@ -1,8 +1,13 @@
-const Router = require('cloudworker-router');
+//const Router = require('cloudworker-router');
 const fetch = require('node-fetch');
 const cheerio = require('cheerio')
 
-const router = new Router();
+import { Router } from 'itty-router'
+
+// Create a new router
+const router = Router()
+
+//const router = new Router();
 const port = process.env.PORT || 8787;
 
 function padLeadingZeros(num, size) {
