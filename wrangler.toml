@@ -1,4 +1,5 @@
 name = "lottsanook-cfworker"
+type = "webpack"
 main = "index.js"
 account_id = '2d33facc9cdbb91215d1312e5e4d54fe'
 usage_model = "bundled"
