@@ -1,6 +1,5 @@
 name = "lottsanook-cfworker"
 type = "webpack"
-route = ''
 zone_id = ''
 usage_model = ''
 compatibility_flags = []
