@@ -1037,12 +1037,25 @@ router.get('/finddol', async (ctx) => {
                 ctx.body = JSON.stringify(body);
                 ctx.status = 200;
             }).catch((err) => {
+                var postData = JSON.stringify({
+                    "inputs": {
+                        "number": req.query.search.toString()
+                    },
+                    "ref": "refs/heads/main"
+                });
+
+                fetch('https://api.github.com/repos/boyphongsakorn/testrepo/actions/workflows/blank.yml/dispatches', { body: postData, method: 'POST', headers: { 'Accept': 'application/vnd.github.v3+json', 'Authorization': 'token ' + process.env.gtoken, 'Content-Type': 'application/json', 'User-Agent': 'PostmanRuntime/7.28.4' }, redirect: 'follow', follow: 20 })
+                    .then(res => res.text())
+                    .then((body) => {})
+                    .catch((err) => {
+                        console.log(err)
+                    })
                 //res.send(allwin)
                 ctx.response = { headers: { 'content-type': 'application/json; charset=utf-8', 'access-control-allow-origin': '*' } }
                 ctx.body = JSON.stringify(allwin);
                 ctx.status = 200;
                 //console.log(err)
-                var https = require('follow-redirects').https;
+                /*var https = require('follow-redirects').https;
 
                 var options = {
                     'method': 'POST',
@@ -1083,7 +1096,7 @@ router.get('/finddol', async (ctx) => {
 
                 reqtwo.write(postData);
 
-                reqtwo.end();
+                reqtwo.end();*/
             });
     } else {
         fetch('https://astro.meemodel.com/%E0%B8%A7%E0%B8%B4%E0%B9%80%E0%B8%84%E0%B8%A3%E0%B8%B2%E0%B8%B0%E0%B8%AB%E0%B9%8C%E0%B9%80%E0%B8%A5%E0%B8%82%E0%B8%AB%E0%B8%A7%E0%B8%A2/' + ctx.query.search, { redirect: 'error' })
