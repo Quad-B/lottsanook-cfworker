@@ -937,7 +937,7 @@ fastify.get('/lotnews', async (request, reply) => {
     let $ = cheerio.load(xml)
     let news = $('item')
     //loop news 5 time and push to array
-    console.log(arrayofnews)
+    //console.log(arrayofnews)
     for (let i = 0; i < arrayofnews[0]; i++) {
         const title = news.eq(i).find('title').text()
         const link = news.eq(i).find('link')[0].next.data
