@@ -20,7 +20,7 @@ fastify.get('/', async (request, reply) => {
             url = 'https://' + request.headers.host
         }
     } catch (error) {*/
-        url = 'https://' + request.headers.host
+        url = 'https://lottsanook-verceljs.vercel.app'
     //}
 
     let test = ['test']
@@ -187,7 +187,8 @@ fastify.get('/', async (request, reply) => {
     }
 
     //return { hello: 'world' }
-    return test
+    //return test
+    reply.send(test)
 })
 
 fastify.get('/index2', async (request, reply) => {
@@ -200,7 +201,7 @@ fastify.get('/index2', async (request, reply) => {
             url = 'https://' + request.headers.host
         }
     } catch (error) {*/
-        url = 'https://' + request.headers.host
+        url = 'https://lottsanook-verceljs.vercel.app'
     //}
 
     var test = []
@@ -371,7 +372,8 @@ fastify.get('/index2', async (request, reply) => {
         }
     }
 
-    return test;
+    //return test;
+    reply.send(test)
 })
 
 fastify.get('/index3', async (request, reply) => {
