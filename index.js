@@ -555,3 +555,192 @@ fastify.get('/index3', async (request, reply) => {
     //return test;
     reply.send(test)
 })
+
+fastify.get('/reto', async (request, reply) => {
+    let url;
+    /*try {
+        const checkurl = await fetch('http://localhost:' + port + '/index3')
+        if (checkurl.status === 200) {
+            url = 'http://localhost:' + port
+        } else {
+            url = 'https://' + request.headers.host
+        }
+    } catch (error) {*/
+        url = 'https://lottsanook-verceljs.vercel.app'
+    //}
+
+    let test
+    await fetch(url + '/?date=' + padLeadingZeros(new Date().getDate(), 2) + '' + padLeadingZeros((new Date().getMonth() + 1), 2) + '' + (new Date().getFullYear() + 543))
+        .then(res => res.json())
+        .then((body) => {
+            if (body[0][1] === "XXXXXX" || body[0][1] === "xxxxxx") {
+                //res.send('yes')
+                test = 'yes'
+            } else {
+                //res.send('no')
+                test = 'no'
+            }
+        })
+
+    return test
+})
+
+fastify.get('/god', async (request, reply) => {
+    //let test = []
+
+    let year = 2533;
+    let preyearlist = [];
+    let preyearsuperlist = [];
+    let yearlist = [];
+    let nextyear = new Date().getFullYear() + 543;
+    let channel = [];
+    //let jdata
+    let countloveme = 0
+    var fileContents = null;
+    try {
+        //fileContents = fs.readFileSync('tmp/cache.txt');
+    } catch (err) { }
+    try {
+        if (fileContents) {
+            yearlist = JSON.parse(fileContents);
+            if (
+                yearlist[yearlist.length - 1].substring(4, 8) ==
+                new Date().getFullYear() + 543
+            ) {
+                year = new Date().getFullYear() + 543;
+            } else {
+                //year = yearlist[yearlist.length - 1].substring(4, 8)
+                year = new Date().getFullYear() + 543 - 1;
+            }
+            yearlist.forEach(function (value, i) {
+                if (
+                    value.substring(4, 8) ==
+                    year
+                ) {
+                    countloveme--;
+                }
+            });
+            yearlist.splice(countloveme);
+        }
+    } catch (err) {
+        fileContents = false
+    }
+
+    let day
+    while (year <= nextyear) {
+        channel = []
+        for (let i = 0; i < 10; i++) {
+            preyearsuperlist = [];
+            preyearlist = [];
+            let peryear = [];
+            let ayear = year + i
+            if (ayear > nextyear) {
+                break
+            }
+            await fetch('https://www.myhora.com/%E0%B8%AB%E0%B8%A7%E0%B8%A2/%E0%B8%9B%E0%B8%B5-' + ayear + '.aspx')
+                .then(res => res.text())
+                .then((body) => {
+                    var $ = cheerio.load(body);
+                    for (const val of $('font').toArray()) {
+                        if (val.firstChild.data.indexOf('ตรวจสลากกินแบ่งรัฐบาล') > -1) {
+                            day = val.firstChild.data.split(" ").splice(2)
+                            let monthnum
+                            switch (day[2]) {
+                                case 'มกราคม': monthnum = "01"; break;
+                                case 'กุมภาพันธ์': monthnum = "02"; break;
+                                case 'มีนาคม': monthnum = "03"; break;
+                                case 'เมษายน': monthnum = "04"; break;
+                                case 'พฤษภาคม': monthnum = "05"; break;
+                                case 'มิถุนายน': monthnum = "06"; break;
+                                case 'กรกฎาคม': monthnum = "07"; break;
+                                case 'สิงหาคม': monthnum = "08"; break;
+                                case 'กันยายน': monthnum = "09"; break;
+                                case 'ตุลาคม': monthnum = "10"; break;
+                                case 'พฤศจิกายน': monthnum = "11"; break;
+                                case 'ธันวาคม': monthnum = "12"; break;
+                            }
+                            peryear.unshift(padLeadingZeros(day[0], 2) + monthnum + day[3])
+                            preyearsuperlist.unshift(padLeadingZeros(day[0], 2) + monthnum + day[3])
+                        }
+                    }
+                    for (const val of peryear) {
+                        yearlist.push(val)
+                    }
+                    for (const val of preyearsuperlist) {
+                        preyearlist.push(val)
+                        try {
+                            if (day[3] == new Date().getFullYear() + 543) {
+                                //fs.unlinkSync('tmp/' + request.query.date + '.txt');
+                                console.log('yes this year')
+                            }
+                        } catch (err) {
+
+                        }
+                        /*fs.writeFile('tmp/' + day[3] + '.txt', JSON.stringify(preyearlist), function (err) {
+                            if (err) throw err;
+                        });*/
+                    }
+                })
+        }
+        year += 10
+    }
+    /*fs.writeFile('tmp/cache.txt', JSON.stringify(yearlist), async function (err) {
+        if (err) throw err;
+    });*/
+
+    if (request.query.format == "thtext") {
+        yearlist.forEach(element => {
+            let monthtext
+            switch (element.slice(2, 4)) {
+                case '01': monthtext = "มกราคม"; break;
+                case '02': monthtext = "กุมภาพันธ์"; break;
+                case '03': monthtext = "มีนาคม"; break;
+                case '04': monthtext = "เมษายน"; break;
+                case '05': monthtext = "พฤษภาคม"; break;
+                case '06': monthtext = "มิถุนายน"; break;
+                case '07': monthtext = "กรกฎาคม"; break;
+                case '08': monthtext = "สิงหาคม"; break;
+                case '09': monthtext = "กันยายน"; break;
+                case '10': monthtext = "ตุลาคม"; break;
+                case '11': monthtext = "พฤศจิกายน"; break;
+                case '12': monthtext = "ธันวาคม"; break;
+            }
+            //element = element.slice(0, 2) + " " + monthtext + " " + element.slice(4, 8)
+            //yearlist.indexOf(element)
+            yearlist[yearlist.indexOf(element)] = element.slice(0, 2) + " " + monthtext + " " + element.slice(4, 8)
+        });
+        //res.send(yearlist)
+        //test = yearlist
+    } else if (request.query.format == "combothtext") {
+        yearlist.forEach(element => {
+            let monthtext
+            //let array
+            switch (element.slice(2, 4)) {
+                case '01': monthtext = "มกราคม"; break;
+                case '02': monthtext = "กุมภาพันธ์"; break;
+                case '03': monthtext = "มีนาคม"; break;
+                case '04': monthtext = "เมษายน"; break;
+                case '05': monthtext = "พฤษภาคม"; break;
+                case '06': monthtext = "มิถุนายน"; break;
+                case '07': monthtext = "กรกฎาคม"; break;
+                case '08': monthtext = "สิงหาคม"; break;
+                case '09': monthtext = "กันยายน"; break;
+                case '10': monthtext = "ตุลาคม"; break;
+                case '11': monthtext = "พฤศจิกายน"; break;
+                case '12': monthtext = "ธันวาคม"; break;
+            }
+            //element = element.slice(0, 2) + " " + monthtext + " " + element.slice(4, 8)
+            //yearlist.indexOf(element)
+            yearlist[yearlist.indexOf(element)] = [element, element.slice(0, 2) + " " + monthtext + " " + element.slice(4, 8)]
+        });
+        //res.send(yearlist)
+        //test = yearlist
+    } else {
+        //res.send(yearlist)
+        //test = yearlist
+    }
+
+    //console.log(yearlist)
+    //return yearlist
+    reply.send(yearlist)
+})
