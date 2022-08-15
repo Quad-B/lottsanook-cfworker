@@ -1040,7 +1040,7 @@ fastify.get('/lotnews', async (request, reply) => {
     //loop news 5 time and push to array
     for (let i = 0; i < arrayofnews[2]; i++) {
         const title = news.eq(i).find('title').text()
-        const link = news.eq(i).find('link')[0].next.data
+        let link = news.eq(i).find('link')[0].next.data
         let description = news.eq(i).find('description').text()
         if (fulldesc == 'true') {
             const content = news.eq(i).find('content\\:encoded').text()
@@ -1051,6 +1051,8 @@ fastify.get('/lotnews', async (request, reply) => {
         }
         description = description.replace(/\r?\n|\r/g, '')
         const pubDate = news.eq(i).find('pubDate').text()
+        //remove \n or \t from link
+        link = link.replace(/\n|\t/g, '')
         const getimage = await fetch(link)
         const responimage = await getimage.text()
         const $ = cheerio.load(responimage)
