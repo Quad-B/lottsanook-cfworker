@@ -188,6 +188,7 @@ fastify.get('/', async (request, reply) => {
 
     //return { hello: 'world' }
     //return test
+    reply.type('application/json')
     reply.send(test)
 })
 
@@ -373,6 +374,7 @@ fastify.get('/index2', async (request, reply) => {
     }
 
     //return test;
+    reply.type('application/json')
     reply.send(test)
 })
 
@@ -553,6 +555,7 @@ fastify.get('/index3', async (request, reply) => {
     }
 
     //return test;
+    reply.type('application/json')
     reply.send(test)
 })
 
@@ -583,6 +586,7 @@ fastify.get('/reto', async (request, reply) => {
         })
 
     //return test
+    reply.type('application/json')
     reply.send(test)
 })
 
@@ -596,6 +600,7 @@ fastify.get('/god', async (request, reply) => {
             test = body
         })
     
+    reply.type('application/json')
     reply.send(body)
 })
 
@@ -657,6 +662,7 @@ fastify.get('/gdpy', async (request, reply) => {
     }
 
     //return yearlist
+    reply.type('application/json')
     reply.send(yearlist)
 })
 
@@ -714,6 +720,7 @@ fastify.get('/checklottery', async (request, reply) => {
         })
 
     //return result.substring(0, result.length - 1)
+    reply.type('application/json')
     reply.send(result.substring(0, result.length - 1))
 })
 
@@ -770,6 +777,7 @@ fastify.get('/lastlot', async (request, reply) => {
         })
 
     //return viewer
+    reply.type('application/json')
     reply.send(viewer)
 })
 
@@ -792,6 +800,7 @@ fastify.get('/getchit', async (request, reply) => {
                 if (a.length == 3) {
                     //res.send(a)
                     //return
+                    reply.type('application/json')
                     reply.send('')
                 }
             }
@@ -800,6 +809,7 @@ fastify.get('/getchit', async (request, reply) => {
     if (a.length == 3) {
         //res.send(a)
         //return a
+        reply.type('application/json')
         reply.send('')
     }
 })
@@ -877,6 +887,7 @@ fastify.get('/finddol', async (request, reply) => {
         })
 
     //return allwin
+    reply.type('application/json')
     reply.send(allwin)
 })
 
@@ -1185,5 +1196,6 @@ fastify.get('/lotnews', async (request, reply) => {
     //res.send(array)
 
     //return array
+    reply.type('application/json')
     reply.send(array)
 })
