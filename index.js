@@ -587,11 +587,14 @@ fastify.get('/reto', async (request, reply) => {
 })
 
 fastify.get('/god', async (request, reply) => {
+    let test
     //fetch https://lottsanook.vercel.app/api/god
-    fetch('https://lottsanook.vercel.app/api/god')
+    await fetch('https://lottsanook.vercel.app/api/god')
         .then(res => res.json())
         .then((body) => {
             //res.send(body)
-            reply.send(body)
+            test = body
         })
+    
+    reply.send(body)
 })
