@@ -940,7 +940,7 @@ fastify.get('/lotnews', async (request, reply) => {
     //console.log(arrayofnews)
     for (let i = 0; i < arrayofnews[0]; i++) {
         const title = news.eq(i).find('title').text()
-        const link = news.eq(i).find('link')[0].next.data
+        let link = news.eq(i).find('link')[0].next.data
         let description = news.eq(i).find('description').text()
         if (fulldesc == 'true') {
             const content = news.eq(i).find('content\\:encoded').text()
@@ -952,6 +952,8 @@ fastify.get('/lotnews', async (request, reply) => {
         //remove /r/n from description
         description = description.replace(/\r?\n|\r/g, '')
         const pubDate = news.eq(i).find('pubDate').text()
+        //remove \n or \t from link
+        link = link.replace(/\n|\t/g, '')
         const getimage = await fetch(link)
         const responimage = await getimage.text()
         //console.log(link)
