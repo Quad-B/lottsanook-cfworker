@@ -969,7 +969,7 @@ fastify.get('/lotnews', async (request, reply) => {
             }
         });*/
         //console.log($('picture > img').toArray()[0].attribs['data-src'])
-        const image = $('picture > img').toArray()[0].attribs['data-src']
+        const image = $('picture > img').toArray()[0].attribs['src']
         //loop imageurl
         /*for (let index = 0; index < imageurl.length; index++) {
             console.log(imageurl)
@@ -1051,7 +1051,7 @@ fastify.get('/lotnews', async (request, reply) => {
         const getimage = await fetch(link)
         const responimage = await getimage.text()
         const $ = cheerio.load(responimage)
-        const image = $('picture > img').toArray()[0].attribs['data-src']
+        const image = $('picture > img').toArray()[0].attribs['src']
         const json = {
             title: title,
             //remove \n and \t in string
