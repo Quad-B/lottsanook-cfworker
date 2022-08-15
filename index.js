@@ -186,16 +186,16 @@ fastify.get('/', async (request, reply) => {
 
 fastify.get('/index2', async (request, reply) => {
     let url;
-    try {
+    /*try {
         const checkurl = await fetch('http://localhost:' + port + '/index3')
         if (checkurl.status === 200) {
             url = 'http://localhost:' + port
         } else {
             url = 'https://' + request.headers.host
         }
-    } catch (error) {
+    } catch (error) {*/
         url = 'https://' + request.headers.host
-    }
+    //}
 
     var test = []
 
