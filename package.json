@@ -12,6 +12,6 @@
     "cheerio": "1.0.0-rc.10",
     "cloudworker-router": "^2.0.5",
     "fastify-edge": "^0.0.4",
-    "node-fetch": "2"
+    "node-fetch": "^2.6.7"
   }
 }
