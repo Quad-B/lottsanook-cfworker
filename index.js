@@ -799,9 +799,9 @@ fastify.get('/getchit', async (request, reply) => {
                 }
                 if (a.length == 3) {
                     //res.send(a)
-                    //return
-                    reply.type('application/json')
-                    reply.send('')
+                    return
+                    /*reply.type('application/json')
+                    reply.send('')*/
                 }
             }
         })
@@ -810,7 +810,7 @@ fastify.get('/getchit', async (request, reply) => {
         //res.send(a)
         //return a
         reply.type('application/json')
-        reply.send('')
+        reply.send(a)
     }
 })
 
