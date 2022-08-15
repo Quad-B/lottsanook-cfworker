@@ -4,6 +4,12 @@ import * as cheerio from 'cheerio';
 
 const fastify = FastifyEdge()
 
+function padLeadingZeros(num, size) {
+    var s = num + "";
+    while (s.length < size) s = "0" + s;
+    return s;
+}
+
 fastify.get('/', async (request, reply) => {
     /*let url;
     try {
