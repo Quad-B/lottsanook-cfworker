@@ -479,7 +479,7 @@ fastify.get('/index3', async (request, reply) => {
                         /*fs.writeFile('tmp/' + request.query.date + '.txt', JSON.stringify(data), function (err) {
                             if (err) throw err;*/
                             //console.log('Saved!');
-                            if (request.query.from !== undefined) {
+                            if (request.query.from == 'true' || request.query.from == true) {
                                 switch (request.query.date.substr(2, 2)) {
                                     case '01': monthtext = "มกราคม"; break;
                                     case '02': monthtext = "กุมภาพันธ์"; break;
@@ -501,7 +501,7 @@ fastify.get('/index3', async (request, reply) => {
                             test = data
                         //});
                     } else {
-                        if (request.query.from !== undefined) {
+                        if (request.query.from == 'true' || request.query.from == true) {
                             switch (request.query.date.substr(2, 2)) {
                                 case '01': monthtext = "มกราคม"; break;
                                 case '02': monthtext = "กุมภาพันธ์"; break;
@@ -523,7 +523,7 @@ fastify.get('/index3', async (request, reply) => {
                         test = data
                     }
                 } catch (error) {
-                    if (request.query.from !== undefined) {
+                    if (request.query.from == 'true' || request.query.from == true) {
                         switch (request.query.date.substr(2, 2)) {
                             case '01': monthtext = "มกราคม"; break;
                             case '02': monthtext = "กุมภาพันธ์"; break;
