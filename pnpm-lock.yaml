@@ -3,11 +3,13 @@ lockfileVersion: 5.4
 specifiers:
   cheerio: 1.0.0-rc.10
   cloudworker-router: ^2.0.5
+  fastify-edge: ^0.0.4
   node-fetch: '2'
 
 dependencies:
   cheerio: 1.0.0-rc.10
   cloudworker-router: 2.0.5
+  fastify-edge: 0.0.4
   node-fetch: 2.6.7
 
 packages:
@@ -91,6 +93,12 @@ packages:
     resolution: {integrity: sha512-p92if5Nz619I0w+akJrLZH0MX0Pb5DX39XOwQTtXSdQQOaYH03S1uIQp4mhOZtAXrxq4ViO67YTiLBo2638o9A==}
     dev: false
 
+  /fastify-edge/0.0.4:
+    resolution: {integrity: sha512-eqGAtT1m6iZedRYdTAaYaFmJEbmQZcF//s9/Jc1USjrKYnn0ewTAJAkddotqF8vJtk1g19tLsyIZ8Og+iVwXqw==}
+    dependencies:
+      radix3: 0.1.2
+    dev: false
+
   /htmlparser2/6.1.0:
     resolution: {integrity: sha512-gyyPk6rgonLFEDGoeRgQNaEUvdJ4ktTmmUh/h2t7s+M8oPpIPxgNACWa+6ESR57kXstwqPiCut0V8NRpcwgU7A==}
     dependencies:
@@ -130,6 +138,10 @@ packages:
 
   /path-to-regexp/6.2.1:
     resolution: {integrity: sha512-JLyh7xT1kizaEvcaXOQwOc2/Yhw6KZOvPf1S8401UyLk86CU79LN3vl7ztXGm/pZ+YjoyAJ4rxmHwbkBXJX+yw==}
+    dev: false
+
+  /radix3/0.1.2:
+    resolution: {integrity: sha512-Mpfd/OuX0zoJ6ojLD/RTOHvJPg6e6PjINtmYzV87kIXc5iUtDz34i7gg4SV4XjqRJTmSiYO/g9i/mKWGf4z8wg==}
     dev: false
 
   /tr46/0.0.3:
