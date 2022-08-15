@@ -598,3 +598,177 @@ fastify.get('/god', async (request, reply) => {
     
     reply.send(body)
 })
+
+fastify.get('/gdpy', async (request, reply) => {
+    //let test
+
+    let peryear = []
+    let yearlist = []
+    var fileContents = null;
+    try {
+        if (request.query.year == new Date().getFullYear() + 543) {
+            //fs.unlinkSync('tmp/' + request.query.year + '.txt');
+            console.log('yes this year')
+        }
+        //fileContents = fs.readFileSync('tmp/' + request.query.year + '.txt');
+        console.log(JSON.parse(fileContents))
+    } catch (err) {
+        fileContents = null;
+    }
+    if (fileContents) {
+        //res.send(JSON.parse(fileContents));
+        //test = JSON.parse(fileContents)
+        yearlist = JSON.parse(fileContents)
+    } else {
+        await fetch('https://www.myhora.com/%E0%B8%AB%E0%B8%A7%E0%B8%A2/%E0%B8%9B%E0%B8%B5-' + request.query.year + '.aspx')
+            .then(res => res.text())
+            .then((body) => {
+                var $ = cheerio.load(body);
+                for (const val of $('font').toArray()) {
+                    if (val.firstChild.data.indexOf("ตรวจสลากกินแบ่งรัฐบาล") > -1) {
+                        let day = val.firstChild.data.split(" ").splice(2)
+                        let monthnum
+                        switch (day[2]) {
+                            case 'มกราคม': monthnum = "01"; break;
+                            case 'กุมภาพันธ์': monthnum = "02"; break;
+                            case 'มีนาคม': monthnum = "03"; break;
+                            case 'เมษายน': monthnum = "04"; break;
+                            case 'พฤษภาคม': monthnum = "05"; break;
+                            case 'มิถุนายน': monthnum = "06"; break;
+                            case 'กรกฎาคม': monthnum = "07"; break;
+                            case 'สิงหาคม': monthnum = "08"; break;
+                            case 'กันยายน': monthnum = "09"; break;
+                            case 'ตุลาคม': monthnum = "10"; break;
+                            case 'พฤศจิกายน': monthnum = "11"; break;
+                            case 'ธันวาคม': monthnum = "12"; break;
+                        }
+                        peryear.unshift(padLeadingZeros(day[0], 2) + monthnum + day[3])
+                    }
+                }
+                for (const val of peryear) {
+                    yearlist.push(val)
+                }
+                /*fs.writeFile('tmp/' + request.query.year + '.txt', JSON.stringify(yearlist), function (err) {
+                    if (err) throw err;*/
+                    //res.send(yearlist)
+                    //test = yearlist
+                //});
+            })
+    }
+
+    //return yearlist
+    reply.send(yearlist)
+})
+
+fastify.get('/checklottery', async (request, reply) => {
+    let url;
+    /*try {
+        const checkurl = await fetch('http://localhost:' + port + '/index3')
+        if (checkurl.status === 200) {
+            url = 'http://localhost:' + port
+        } else {
+            url = 'https://' + request.headers.host
+        }
+    } catch (error) {*/
+        url = 'https://lottsanook-verceljs.vercel.app'
+    //}
+
+    let result = ""
+    await fetch(url + '/?date=' + request.query.by)
+        .then(res => res.json())
+        .then((body) => {
+            body.forEach(function (val, x) {
+                val.forEach(function (superval, y) {
+                    if (superval == request.query.search || superval == request.query.search.substr(0, 3) || superval == request.query.search.substr(3, 6) || superval == request.query.search.substr(4, 6) && y != 0) {
+                        if (x == 0) {
+                            result = result + "111111,";
+                        }
+                        if (x == 1) {
+                            result = result + "333000,";
+                        }
+                        if (x == 2) {
+                            result = result + "000333,";
+                        }
+                        if (x == 3) {
+                            result = result + "000022,";
+                        }
+                        if (x == 4) {
+                            result = result + "111112,";
+                        }
+                        if (x == 5) {
+                            result = result + "222222,";
+                        }
+                        if (x == 6) {
+                            result = result + "333333,";
+                        }
+                        if (x == 7) {
+                            result = result + "444444,";
+                        }
+                        if (x == 8) {
+                            result = result + "555555,";
+                        }
+                    }
+                })
+            })
+            //res.send(result.substring(0, result.length - 1))
+        })
+
+    //return result.substring(0, result.length - 1)
+    reply.send(result.substring(0, result.length - 1))
+})
+
+fastify.get('/lastlot', async (request, reply) => {
+    let url;
+    /*try {
+        const checkurl = await fetch('http://localhost:' + port + '/index3')
+        if (checkurl.status === 200) {
+            url = 'http://localhost:' + port
+        } else {
+            url = 'https://' + request.headers.host
+        }
+    } catch (error) {*/
+        url = 'https://lottsanook-verceljs.vercel.app'
+    //}
+
+    let lastdate
+    let viewer
+    await fetch(url + '/gdpy?year=' + (new Date().getFullYear() + 543))
+        .then(res => res.json())
+        .then((body) => {
+            lastdate = body[body.length - 1]
+        })
+    // if lastdate is null or undefined then fetch last year
+    if (lastdate == undefined || lastdate == null) {
+        await fetch(url + '/gdpy?year=' + (new Date().getFullYear() + 543 - 1))
+            .then(res => res.json())
+            .then((body) => {
+                lastdate = body[body.length - 1]
+            })
+    }
+    await fetch(url + '/?date=' + lastdate)
+        .then(res => res.json())
+        .then((body) => {
+            if (request.query.info !== undefined) {
+                viewer = {
+                    info: {
+                        date: lastdate
+                    },
+                    win: body[0][1],
+                    threefirst: body[1][1] + ',' + body[1][2],
+                    threeend: body[2][1] + ',' + body[2][2],
+                    twoend: body[3][1]
+                }
+            } else {
+                viewer = {
+                    win: body[0][1],
+                    threefirst: body[1][1] + ',' + body[1][2],
+                    threeend: body[2][1] + ',' + body[2][2],
+                    twoend: body[3][1]
+                }
+            }
+            //res.send(viewer)
+        })
+
+    //return viewer
+    reply.send(viewer)
+})
