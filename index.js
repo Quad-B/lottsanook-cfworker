@@ -1,5 +1,5 @@
 import FastifyEdge from 'fastify-edge';
-import fetch from 'node-fetch';
+//import fetch from 'node-fetch';
 import * as cheerio from 'cheerio';
 
 const fastify = FastifyEdge()
