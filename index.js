@@ -550,5 +550,6 @@ fastify.get('/index3', async (request, reply) => {
             });
     }
 
-    return test;
+    //return test;
+    reply.send(test)
 })
