@@ -772,3 +772,413 @@ fastify.get('/lastlot', async (request, reply) => {
     //return viewer
     reply.send(viewer)
 })
+
+fastify.get('/getchit', async (request, reply) => {
+    let a = []
+    await fetch('https://www.huayvips.com/luckynumber/')
+        .then(res => res.text())
+        .then((body) => {
+            let $ = cheerio.load(body)
+            for (const val of $('img').toArray()) {
+                if (val.attribs.src.indexOf('TL') > -1) {
+                    a.push(val.attribs.src)
+                }
+                if (val.attribs.src.indexOf('DN') > -1) {
+                    a.push(val.attribs.src)
+                }
+                if (val.attribs.src.indexOf('BT') > -1) {
+                    a.push(val.attribs.src)
+                }
+                if (a.length == 3) {
+                    //res.send(a)
+                    //return
+                    reply.send('')
+                }
+            }
+        })
+
+    if (a.length == 3) {
+        //res.send(a)
+        //return a
+        reply.send('')
+    }
+})
+
+fastify.get('/finddol', async (request, reply) => {
+    let url;
+    /*try {
+        const checkurl = await fetch('http://localhost:' + port + '/index3')
+        if (checkurl.status === 200) {
+            url = 'http://localhost:' + port
+        } else {
+            url = 'https://' + request.headers.host
+        }
+    } catch (error) {*/
+        url = 'https://lottsanook-verceljs.vercel.app'
+    //}
+
+    let channels
+    let allwin = []
+    await fetch('https://raw.githubusercontent.com/boyphongsakorn/testrepo/main/tmp/' + request.query.search, { redirect: 'error' })
+        .then(res => res.json())
+        .then((body) => {
+            //res.send(body)
+            allwin = body
+        })
+        .catch(async (error) => {
+            if (request.query.search.length > 3) {
+                var postData = JSON.stringify({
+                    "inputs": {
+                        "number": request.query.search.toString()
+                    },
+                    "ref": "refs/heads/main"
+                });
+                const takeres = await fetch('https://api.github.com/repos/boyphongsakorn/testrepo/actions/workflows/blank.yml/dispatches', { body: postData, method: 'POST', headers: { 'Accept': 'application/vnd.github.v3+json', 'Authorization': 'token ' + process.env.gtoken, 'Content-Type': 'application/json', 'User-Agent': 'PostmanRuntime/7.28.4' }, redirect: 'follow', follow: 20 })
+                const takedata = await takeres.text()
+                console.log(takedata)
+
+                await fetch(url + '/god')
+                    .then(res => res.json())
+                    .then((body) => {
+                        channels = body.splice(408)
+                        console.log(channels)
+                    })
+                for (const val of channels) {
+                    console.log(val)
+                    await fetch(url + '/?date=' + val + '&from')
+                        .then(res => res.json())
+                        .then((body) => {
+                            for (let index = 0; index < body.length; index++) {
+                                const element = body[index];
+                                if (element.includes(request.query.search.toString())) {
+                                    allwin.push(body[0][0])
+                                    console.log(url + '/?date=' + val + '&from')
+                                }
+                            }
+
+                        })
+                }
+                //res.send(allwin)
+            } else {
+                await fetch('https://astro.meemodel.com/%E0%B8%A7%E0%B8%B4%E0%B9%80%E0%B8%84%E0%B8%A3%E0%B8%B2%E0%B8%B0%E0%B8%AB%E0%B9%8C%E0%B9%80%E0%B8%A5%E0%B8%82%E0%B8%AB%E0%B8%A7%E0%B8%A2/' + request.query.search, { redirect: 'error' })
+                    .then(res => res.text())
+                    .then((body) => {
+                        let $ = cheerio.load(body)
+                        $('td').toArray().forEach(element => {
+                            let sl = element.firstChild.data
+                            if (sl != null && sl.split(" ").length == 3 && sl.split(" ")[2] >= 2550) {
+                                allwin.unshift(sl)
+                            }
+
+                        });
+                        //res.send(allwin)
+                    });
+            }
+        })
+
+    //return allwin
+    reply.send(allwin)
+})
+
+fastify.get('/lotnews', async (request, reply) => {
+    let arrayofnews = [0, 0, 0, 0]
+    let count = request.query.count || 0
+    let check = count % 4
+    //get date 7 days ago
+    let date = new Date()
+    let fulldesc = request.query.fulldesc || 'false'
+    date.setDate(date.getDate() - 7)
+    /*if (check != 0) {
+        if (check == 1) {
+            //ceil number
+            arrayofnews[0] = Math.floor(count / 4)
+            arrayofnews[1] = Math.ceil(count / 4)
+            //floor number
+            arrayofnews[2] = Math.floor(count / 4)
+            arrayofnews[3] = Math.floor(count / 4)
+        } else if (check == 2) {
+            //ceil number
+            arrayofnews[0] = Math.floor(count / 4)
+            arrayofnews[1] = Math.ceil(count / 4)
+            //floor number
+            arrayofnews[2] = Math.floor(count / 4)
+            arrayofnews[3] = Math.floor(count / 4) + 1
+        } else if (check == 3) {
+            //ceil number
+            arrayofnews[0] = Math.floor(count / 4)
+            arrayofnews[1] = Math.ceil(count / 4) + 1
+            //floor number
+            arrayofnews[2] = Math.floor(count / 4)
+            arrayofnews[3] = Math.floor(count / 4) + 1
+        }
+    } else {
+        arrayofnews[0] = count / 4
+        arrayofnews[1] = count / 4
+        arrayofnews[2] = count / 4
+        arrayofnews[3] = (count / 4) + 1
+    }
+    if (request.query.lastweek && request.query.lastweek == 'true') {*/
+        if (count > 10) {
+            arrayofnews[0] = 10
+            arrayofnews[1] = 10
+            arrayofnews[2] = 10
+            arrayofnews[3] = 10
+        } else {
+            arrayofnews[0] = count
+            arrayofnews[1] = count
+            arrayofnews[2] = count
+            arrayofnews[3] = count
+        }
+    /*}*/
+    
+    let array = [];
+    let response = await fetch('https://www.brighttv.co.th/tag/%e0%b9%80%e0%b8%a5%e0%b8%82%e0%b9%80%e0%b8%94%e0%b9%87%e0%b8%94/feed')
+    let xml = await response.text()
+    let $ = cheerio.load(xml)
+    let news = $('item')
+    //loop news 5 time and push to array
+    console.log(arrayofnews)
+    for (let i = 0; i < arrayofnews[0]; i++) {
+        const title = news.eq(i).find('title').text()
+        const link = news.eq(i).find('link')[0].next.data
+        let description = news.eq(i).find('description').text()
+        if (fulldesc == 'true') {
+            const content = news.eq(i).find('content\\:encoded').text()
+            description = content.replace(/]]>/g, '')
+            //console.log(content_clean)
+        } else {
+            description = description.substring(0, 100) + '...'
+        }
+        //remove /r/n from description
+        description = description.replace(/\r?\n|\r/g, '')
+        const pubDate = news.eq(i).find('pubDate').text()
+        const getimage = await fetch(link)
+        const responimage = await getimage.text()
+        //console.log(image)
+        //write to html file
+        //fs.writeFileSync('news.html', responimage)
+        const $ = cheerio.load(responimage)
+        /*$('picture > img').toArray().forEach(element => {
+            try {
+                if(element.attribs.class.includes('wp-post-image')){
+                    console.log(element.attribs['data-src'])
+                }
+                //numberpush.push(element.firstChild.data)
+            } catch (error) {
+
+            }
+        });*/
+        //console.log($('picture > img').toArray()[0].attribs['data-src'])
+        const image = $('picture > img').toArray()[0].attribs['data-src']
+        //loop imageurl
+        /*for (let index = 0; index < imageurl.length; index++) {
+            console.log(imageurl)
+        }*/
+        /*const date = pubDate.slice(0, 10)
+        const time = pubDate.slice(11, 19)
+        const dateTime = date + ' ' + time*/
+        const json = {
+            title: title,
+            //remove \n and \t in string
+            link: link.replace(/\n|\t/g, ''),
+            description: description,
+            image: image,
+            pubDate: pubDate,
+        }
+        //if new Date(pubDate) < date push to array
+        if (request.query.lastweek) {
+            if (new Date(pubDate) > date) {
+                array.push(json)
+            }
+        } else {
+            array.push(json)
+        }
+    }
+
+    response = await fetch('https://www.khaosod.co.th/get_menu?slug=lottery&offset=0&limit=' + arrayofnews[1])
+    xml = await response.json()
+    news = xml._posts
+    for (let i = 0; i < news.length; i++) {
+        const title = news[i].post_title
+        const link = 'https://www.khaosod.co.th/lottery/news_' + news[i].ID
+        const description = news[i].post_content
+        const pubDate = news[i].created_at
+        //format pubDate from iso string to date string
+        const event = new Date(pubDate)
+        // image
+        const image = news[i].image
+        //create new description variable with remove html tag
+        let description2 = description.replace(/<(?:.|\n)*?>/gm, '')
+        if (fulldesc == 'false') {
+            description2 = description2.substring(0, 100) + '...'
+        }
+        description2 = description2.replace(/\r?\n|\r/g, '')
+        const json = {
+            title: title,
+            link: link.replace(/\n|\t/g, ''),
+            description: description2,
+            image: image,
+            pubDate: event.toUTCString(),
+        }
+        //if new Date(pubDate) < date push to array
+        if (request.query.lastweek) {
+            if (event > date) {
+                array.push(json)
+            }
+        } else {
+            array.push(json)
+        }
+    }
+
+    response = await fetch('https://www.brighttv.co.th/tag/%E0%B8%AB%E0%B8%A7%E0%B8%A2%E0%B9%81%E0%B8%A1%E0%B9%88%E0%B8%99%E0%B9%89%E0%B8%B3%E0%B8%AB%E0%B8%99%E0%B8%B6%E0%B9%88%E0%B8%87/feed')
+    xml = await response.text()
+    $ = cheerio.load(xml)
+    news = $('item')
+    //loop news 5 time and push to array
+    for (let i = 0; i < arrayofnews[2]; i++) {
+        const title = news.eq(i).find('title').text()
+        const link = news.eq(i).find('link')[0].next.data
+        let description = news.eq(i).find('description').text()
+        if (fulldesc == 'true') {
+            const content = news.eq(i).find('content\\:encoded').text()
+            description = content.replace(/]]>/g, '')
+            //console.log(content_clean)
+        } else {
+            description = description.substring(0, 100) + '...'
+        }
+        description = description.replace(/\r?\n|\r/g, '')
+        const pubDate = news.eq(i).find('pubDate').text()
+        const getimage = await fetch(link)
+        const responimage = await getimage.text()
+        const $ = cheerio.load(responimage)
+        const image = $('picture > img').toArray()[0].attribs['data-src']
+        const json = {
+            title: title,
+            //remove \n and \t in string
+            link: link.replace(/\n|\t/g, ''),
+            description: description,
+            image: image,
+            pubDate: pubDate,
+        }
+        //if new Date(pubDate) < date push to array
+        if (request.query.lastweek) {
+            if (new Date(pubDate) > date) {
+                array.push(json)
+            }
+        } else {
+            array.push(json)
+        }
+    }
+
+    response = await fetch('https://www.bangkokbiznews.com/tags/%E0%B9%80%E0%B8%A5%E0%B8%82%E0%B9%80%E0%B8%94%E0%B9%87%E0%B8%94');
+    $ = cheerio.load(await response.text());
+    const a = $('a.card-wrapper');
+    for (let i = 0; i < arrayofnews[3]; i++) {
+        //if h3 class card-v-content-title text-excerpt-2
+        if ($(a[i]).find('h3').attr('class') === 'card-v-content-title  text-excerpt-2' && !$(a[i]).find('h3').text().includes('ตรวจหวย')) {
+            const title = $(a[i]).find('h3').text()
+            const link = 'https://www.bangkokbiznews.com' + $(a[i]).attr('href')
+            let description
+            const image = $(a[i]).find('img').attr('src')
+            const date = $(a[i]).find('span.date').text().split('|');
+            let time = date[1].trim().split(':')[0].padStart(2, '0') + ':' + date[1].trim().split(':')[1].padStart(2, '0');
+            let number = '';
+            switch (date[0].split(' ')[1]) {
+                case 'ม.ค.':
+                    number = '01';
+                    break;
+                case 'ก.พ.':
+                    number = '02';
+                    break;
+                case 'มี.ค.':
+                    number = '03';
+                    break;
+                case 'เม.ย.':
+                    number = '04';
+                    break;
+                case 'พ.ค.':
+                    number = '05';
+                    break;
+                case 'มิ.ย.':
+                    number = '06';
+                    break;
+                case 'ก.ค.':
+                    number = '07';
+                    break;
+                case 'ส.ค.':
+                    number = '08';
+                    break;
+                case 'ก.ย.':
+                    number = '09';
+                    break;
+                case 'ต.ค.':
+                    number = '10';
+                    break;
+                case 'พ.ย.':
+                    number = '11';
+                    break;
+                case 'ธ.ค.':
+                    number = '12';
+                    break;
+            }
+            let vertdate = new Date(parseInt(date[0].split(' ')[2]) - 543 + '-' + number + '-' + date[0].split(' ')[0] + 'T' + time + ':00Z');
+            const pubDate = vertdate.toUTCString()
+            const content = await fetch(link);
+            const $$ = cheerio.load(await content.text());
+            const div = $$('div.content-detail');
+            for (let j = 0; j < div.length; j++) {
+                if ($(div[j]).attr('class') === 'content-detail') {
+                    if (fulldesc == 'true') {
+                        description = $(div[j]).text().replace(/\r?\n|\r/g, '')
+                    } else {
+                        //remove new line from description
+                        description = $(div[j]).text().replace(/\r?\n|\r/g, '')
+                        description = description.substring(0, 100) + '...'
+                    }
+                }
+            }
+            const json = {
+                title: title,
+                link: link,
+                description: description,
+                image: image,
+                pubDate: pubDate,
+            }
+            //if new Date(pubDate) < date push to array
+            if (request.query.lastweek) {
+                if (new Date(pubDate) > date) {
+                    array.push(json)
+                }
+            } else {
+                array.push(json)
+            }
+        }
+    }
+
+    if (request.query.lastweek) {
+        //get array.length > request.query.count
+        if (array.length > count) {
+            //slice array to request.query.count
+            //array = array.slice(0, request.query.count)
+            let wantremove = array.length - count
+            array.splice(parseInt(count / 2), wantremove)
+        }
+    }
+
+    //order by pubDate
+    array.sort((a, b) => {
+        return new Date(b.pubDate) - new Date(a.pubDate)
+    })
+
+    //get only count of array
+    if (count) {
+        array = array.slice(0, count)
+    }else{
+        array = array.slice(0, 10)
+    }
+
+    //res.send(array)
+
+    //return array
+    reply.send(array)
+})
