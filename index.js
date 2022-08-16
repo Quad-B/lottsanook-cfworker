@@ -95,7 +95,7 @@ fastify.get('/', async (request, reply) => {
                     for (let [index, val] of result["response"]["data"]["fifth"]["number"].entries()) {
                         data[8][index + 1] = val["value"]
                     }
-                    if (request.query.from !== undefined) {
+                    if (request.query.from == 'true') {
                         switch (request.query.date.substr(2, 2)) {
                             case '01':
                                 monthtext = "มกราคม";
