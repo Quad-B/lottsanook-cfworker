@@ -592,16 +592,37 @@ fastify.get('/reto', async (request, reply) => {
 
 fastify.get('/god', async (request, reply) => {
     let test
-    //fetch https://lottsanook.vercel.app/api/god
-    await fetch('https://raw.githubusercontent.com/boyphongsakorn/testrepo/main/god')
+    if (request.query.format == "thtext") {
+        await fetch('https://raw.githubusercontent.com/boyphongsakorn/testrepo/main/godthtext')
         .then(res => res.json())
         .then((body) => {
             //res.send(body)
             test = body
         })
+        //res.send(yearlist)
+        //test = yearlist
+    } else if (request.query.format == "combothtext") {
+        await fetch('https://raw.githubusercontent.com/boyphongsakorn/testrepo/main/godcombothtext')
+        .then(res => res.json())
+        .then((body) => {
+            //res.send(body)
+            test = body
+        })
+        //res.send(yearlist)
+        //test = yearlist
+    } else {
+        await fetch('https://raw.githubusercontent.com/boyphongsakorn/testrepo/main/god')
+        .then(res => res.json())
+        .then((body) => {
+            //res.send(body)
+            test = body
+        })
+        //res.send(yearlist)
+        //test = yearlist
+    }
     
     reply.type('application/json')
-    reply.send(body)
+    reply.send(test)
 })
 
 fastify.get('/gdpy', async (request, reply) => {
