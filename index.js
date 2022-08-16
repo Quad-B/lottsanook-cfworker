@@ -260,7 +260,7 @@ fastify.get('/index2', async (request, reply) => {
 
         if (fileContents) {
             data = JSON.parse(fileContents)
-            if (request.query.from !== undefined) {
+            if (request.query.from == 'true') {
                 data[0][0] = request.query.date.substring(0, 2) + monthtext + request.query.date.substring(4, 8)
             }
             //res.send(data);
@@ -352,14 +352,14 @@ fastify.get('/index2', async (request, reply) => {
                         /*fs.writeFile('tmp/' + request.query.date + '.txt', JSON.stringify(data), function (err) {
                             if (err) throw err;*/
                             //console.log('Saved!');
-                            if (request.query.from !== undefined) {
+                            if (request.query.from == 'true') {
                                 data[0][0] = request.query.date.substring(0, 2) + monthtext + request.query.date.substring(4, 8)
                             }
                             //res.send(data)
                             test = data
                         //});
                     } else {
-                        if (request.query.from !== undefined) {
+                        if (request.query.from == 'true') {
                             data[0][0] = request.query.date.substring(0, 2) + monthtext + request.query.date.substring(4, 8)
                         }
                         //res.send(data)
