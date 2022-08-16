@@ -44,7 +44,7 @@ fastify.get('/', async (request, reply) => {
     var today = new Date();
 
     if (date.getTime() === today.getTime() || date > today) {
-        if (request.query.from == 'true' || request.query.from == true) {
+        if (request.query.from == 'true') {
             await fetch(url + '/index3?date=' + request.query.date + '&from')
                 .then(res => res.json())
                 .then((body) => {
@@ -211,7 +211,7 @@ fastify.get('/index2', async (request, reply) => {
         request.query.date = padLeadingZeros(new Date().getDate(), 2) + '' + padLeadingZeros((new Date().getMonth() + 1), 2) + '' + (new Date().getFullYear() + 543)
     }
     if (request.query.date.substring(4, 8) == new Date().getFullYear() + 543) {
-        if (request.query.from == 'true' || request.query.from == true) {
+        if (request.query.from == 'true') {
             await fetch(url + '/index3?date=' + request.query.date + '&from')
                 .then(res => res.json())
                 .then((body) => {
@@ -400,7 +400,7 @@ fastify.get('/index3', async (request, reply) => {
     }
     if (fileContents) {
         let data = JSON.parse(fileContents)
-        if (request.query.from == 'true' || request.query.from == true) {
+        if (request.query.from == 'true') {
             switch (request.query.date.substr(2, 2)) {
                 case '01': monthtext = "มกราคม"; break;
                 case '02': monthtext = "กุมภาพันธ์"; break;
