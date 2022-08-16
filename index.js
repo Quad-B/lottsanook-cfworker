@@ -145,7 +145,7 @@ fastify.get('/', async (request, reply) => {
                     console.log(date)
                     console.log(thatdate)
                     if (date.getTime() === thatdate.getTime() || date < thatdate) {
-                        if (request.query.from !== undefined) {
+                        if (request.query.from == 'true') {
                             await fetch(url + '/index2?date=' + request.query.date + '&from')
                                 .then(res => res.json())
                                 .then((body) => {
@@ -168,7 +168,7 @@ fastify.get('/', async (request, reply) => {
                 }
             })
             .catch(async (error) => {
-                if (request.query.from !== undefined) {
+                if (request.query.from == 'true') {
                     await fetch(url + '/index2?date=' + request.query.date + '&from')
                         .then(res => res.json())
                         .then((body) => {
