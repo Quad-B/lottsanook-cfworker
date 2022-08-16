@@ -593,7 +593,7 @@ fastify.get('/reto', async (request, reply) => {
 fastify.get('/god', async (request, reply) => {
     let test
     //fetch https://lottsanook.vercel.app/api/god
-    await fetch('https://lottsanook.vercel.app/api/god')
+    await fetch('https://raw.githubusercontent.com/boyphongsakorn/testrepo/main/god')
         .then(res => res.json())
         .then((body) => {
             //res.send(body)
