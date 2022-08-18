@@ -776,7 +776,7 @@ fastify.get('/lastlot', async (request, reply) => {
     await fetch(url + '/?date=' + lastdate)
         .then(res => res.json())
         .then((body) => {
-            if (request.query.info !== undefined) {
+            if (request.query.info == 'true') {
                 viewer = {
                     info: {
                         date: lastdate
