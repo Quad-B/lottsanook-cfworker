@@ -920,7 +920,7 @@ fastify.get('/finddol', async (request, reply) => {
                 "ref": "refs/heads/main"
             });
         })
-        /*.catch(async (error) => {
+        .catch(async (error) => {
             if (request.query.search.length > 3) {
                 var postData = JSON.stringify({
                     "inputs": {
@@ -969,7 +969,7 @@ fastify.get('/finddol', async (request, reply) => {
                         //res.send(allwin)
                     });
             }
-        })*/
+        })
 
     //return allwin
     reply.type('application/json')
