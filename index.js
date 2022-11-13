@@ -20,7 +20,7 @@ fastify.get('/', async (request, reply) => {
             url = 'https://' + request.headers.host
         }
     } catch (error) {*/
-        url = 'https://lottsanook-verceljs.vercel.app'
+    url = 'https://lottsanook-verceljs.vercel.app'
     //}
 
     let test = ['test']
@@ -202,7 +202,7 @@ fastify.get('/index2', async (request, reply) => {
             url = 'https://' + request.headers.host
         }
     } catch (error) {*/
-        url = 'https://lottsanook-verceljs.vercel.app'
+    url = 'https://lottsanook-verceljs.vercel.app'
     //}
 
     var test = []
@@ -351,12 +351,12 @@ fastify.get('/index2', async (request, reply) => {
                     if ($('div').toArray()[2].firstChild.data != null && $('div').toArray()[2].firstChild.data != ' เวลา 14:30-16:00น.') {
                         /*fs.writeFile('tmp/' + request.query.date + '.txt', JSON.stringify(data), function (err) {
                             if (err) throw err;*/
-                            //console.log('Saved!');
-                            if (request.query.from == 'true') {
-                                data[0][0] = request.query.date.substring(0, 2) + monthtext + request.query.date.substring(4, 8)
-                            }
-                            //res.send(data)
-                            test = data
+                        //console.log('Saved!');
+                        if (request.query.from == 'true') {
+                            data[0][0] = request.query.date.substring(0, 2) + monthtext + request.query.date.substring(4, 8)
+                        }
+                        //res.send(data)
+                        test = data
                         //});
                     } else {
                         if (request.query.from == 'true') {
@@ -478,27 +478,27 @@ fastify.get('/index3', async (request, reply) => {
                     if ($('div').toArray()[2].firstChild.data.match('~[0-9]+~')) {
                         /*fs.writeFile('tmp/' + request.query.date + '.txt', JSON.stringify(data), function (err) {
                             if (err) throw err;*/
-                            //console.log('Saved!');
-                            if (request.query.from == 'true' || request.query.from == true) {
-                                switch (request.query.date.substr(2, 2)) {
-                                    case '01': monthtext = "มกราคม"; break;
-                                    case '02': monthtext = "กุมภาพันธ์"; break;
-                                    case '03': monthtext = "มีนาคม"; break;
-                                    case '04': monthtext = "เมษายน"; break;
-                                    case '05': monthtext = "พฤษภาคม"; break;
-                                    case '06': monthtext = "มิถุนายน"; break;
-                                    case '07': monthtext = "กรกฎาคม"; break;
-                                    case '08': monthtext = "สิงหาคม"; break;
-                                    case '09': monthtext = "กันยายน"; break;
-                                    case '10': monthtext = "ตุลาคม"; break;
-                                    case '11': monthtext = "พฤศจิกายน"; break;
-                                    case '12': monthtext = "ธันวาคม"; break;
-                                }
-
-                                data[0][0] = request.query.date.substring(0, 2) + monthtext + request.query.date.substring(4, 8)
+                        //console.log('Saved!');
+                        if (request.query.from == 'true' || request.query.from == true) {
+                            switch (request.query.date.substr(2, 2)) {
+                                case '01': monthtext = "มกราคม"; break;
+                                case '02': monthtext = "กุมภาพันธ์"; break;
+                                case '03': monthtext = "มีนาคม"; break;
+                                case '04': monthtext = "เมษายน"; break;
+                                case '05': monthtext = "พฤษภาคม"; break;
+                                case '06': monthtext = "มิถุนายน"; break;
+                                case '07': monthtext = "กรกฎาคม"; break;
+                                case '08': monthtext = "สิงหาคม"; break;
+                                case '09': monthtext = "กันยายน"; break;
+                                case '10': monthtext = "ตุลาคม"; break;
+                                case '11': monthtext = "พฤศจิกายน"; break;
+                                case '12': monthtext = "ธันวาคม"; break;
                             }
-                            //res.send(data)
-                            test = data
+
+                            data[0][0] = request.query.date.substring(0, 2) + monthtext + request.query.date.substring(4, 8)
+                        }
+                        //res.send(data)
+                        test = data
                         //});
                     } else {
                         if (request.query.from == 'true' || request.query.from == true) {
@@ -569,7 +569,7 @@ fastify.get('/reto', async (request, reply) => {
             url = 'https://' + request.headers.host
         }
     } catch (error) {*/
-        url = 'https://lottsanook-verceljs.vercel.app'
+    url = 'https://lottsanook-verceljs.vercel.app'
     //}
 
     let test
@@ -594,33 +594,33 @@ fastify.get('/god', async (request, reply) => {
     let test
     if (request.query.format == "thtext") {
         await fetch('https://raw.githubusercontent.com/boyphongsakorn/testrepo/main/godthtext')
-        .then(res => res.json())
-        .then((body) => {
-            //res.send(body)
-            test = body
-        })
+            .then(res => res.json())
+            .then((body) => {
+                //res.send(body)
+                test = body
+            })
         //res.send(yearlist)
         //test = yearlist
     } else if (request.query.format == "combothtext") {
         await fetch('https://raw.githubusercontent.com/boyphongsakorn/testrepo/main/godcombothtext')
-        .then(res => res.json())
-        .then((body) => {
-            //res.send(body)
-            test = body
-        })
+            .then(res => res.json())
+            .then((body) => {
+                //res.send(body)
+                test = body
+            })
         //res.send(yearlist)
         //test = yearlist
     } else {
         await fetch('https://raw.githubusercontent.com/boyphongsakorn/testrepo/main/god')
-        .then(res => res.json())
-        .then((body) => {
-            //res.send(body)
-            test = body
-        })
+            .then(res => res.json())
+            .then((body) => {
+                //res.send(body)
+                test = body
+            })
         //res.send(yearlist)
         //test = yearlist
     }
-    
+
     reply.type('application/json')
     reply.send(test)
 })
@@ -676,8 +676,8 @@ fastify.get('/gdpy', async (request, reply) => {
                 }
                 /*fs.writeFile('tmp/' + request.query.year + '.txt', JSON.stringify(yearlist), function (err) {
                     if (err) throw err;*/
-                    //res.send(yearlist)
-                    //test = yearlist
+                //res.send(yearlist)
+                //test = yearlist
                 //});
             })
     }
@@ -697,7 +697,7 @@ fastify.get('/checklottery', async (request, reply) => {
             url = 'https://' + request.headers.host
         }
     } catch (error) {*/
-        url = 'https://lottsanook-verceljs.vercel.app'
+    url = 'https://lottsanook-verceljs.vercel.app'
     //}
 
     let result = ""
@@ -755,7 +755,7 @@ fastify.get('/lastlot', async (request, reply) => {
             url = 'https://' + request.headers.host
         }
     } catch (error) {*/
-        url = 'https://lottsanook-verceljs.vercel.app'
+    url = 'https://lottsanook-verceljs.vercel.app'
     //}
 
     let lastdate
@@ -845,16 +845,80 @@ fastify.get('/finddol', async (request, reply) => {
             url = 'https://' + request.headers.host
         }
     } catch (error) {*/
-        url = 'https://lottsanook-verceljs.vercel.app'
+    url = 'https://lottsanook-verceljs.vercel.app'
     //}
 
     let channels
     let allwin = []
+    /*await fetch('https://raw.githubusercontent.com/boyphongsakorn/testrepo/main/tmp/' + request.query.search, { redirect: 'error' })
+        .then(res => res.json())
+        .then((body) => {
+            //res.send(body)
+            allwin = body
+        })
+        .catch(async (error) => {
+            if (request.query.search.length > 3) {
+                var postData = JSON.stringify({
+                    "inputs": {
+                        "number": request.query.search.toString()
+                    },
+                    "ref": "refs/heads/main"
+                });
+                const takeres = await fetch('https://api.github.com/repos/boyphongsakorn/testrepo/actions/workflows/blank.yml/dispatches', { body: postData, method: 'POST', headers: { 'Accept': 'application/vnd.github.v3+json', 'Authorization': 'token ' + process.env.gtoken, 'Content-Type': 'application/json', 'User-Agent': 'PostmanRuntime/7.28.4' }, redirect: 'follow', follow: 20 })
+                const takedata = await takeres.text()
+                console.log(takedata)
+
+                await fetch(url + '/god')
+                    .then(res => res.json())
+                    .then((body) => {
+                        channels = body.splice(408)
+                        console.log(channels)
+                    })
+                for (const val of channels) {
+                    console.log(val)
+                    await fetch(url + '/?date=' + val + '&from')
+                        .then(res => res.json())
+                        .then((body) => {
+                            for (let index = 0; index < body.length; index++) {
+                                const element = body[index];
+                                if (element.includes(request.query.search.toString())) {
+                                    allwin.push(body[0][0])
+                                    console.log(url + '/?date=' + val + '&from')
+                                }
+                            }
+
+                        })
+                }
+                //res.send(allwin)
+            } else {
+                await fetch('https://astro.meemodel.com/%E0%B8%A7%E0%B8%B4%E0%B9%80%E0%B8%84%E0%B8%A3%E0%B8%B2%E0%B8%B0%E0%B8%AB%E0%B9%8C%E0%B9%80%E0%B8%A5%E0%B8%82%E0%B8%AB%E0%B8%A7%E0%B8%A2/' + request.query.search, { redirect: 'error' })
+                    .then(res => res.text())
+                    .then((body) => {
+                        let $ = cheerio.load(body)
+                        $('td').toArray().forEach(element => {
+                            let sl = element.firstChild.data
+                            if (sl != null && sl.split(" ").length == 3 && sl.split(" ")[2] >= 2550) {
+                                allwin.unshift(sl)
+                            }
+
+                        });
+                        //res.send(allwin)
+                    });
+            }
+        })
+    */
+
     await fetch('https://raw.githubusercontent.com/boyphongsakorn/testrepo/main/tmp/' + request.query.search, { redirect: 'error' })
         .then(res => res.json())
         .then((body) => {
             //res.send(body)
             allwin = body
+            var postData = JSON.stringify({
+                "inputs": {
+                    "number": request.query.search.toString()
+                },
+                "ref": "refs/heads/main"
+            });
         })
         .catch(async (error) => {
             if (request.query.search.length > 3) {
@@ -950,19 +1014,19 @@ fastify.get('/lotnews', async (request, reply) => {
         arrayofnews[3] = (count / 4) + 1
     }
     if (request.query.lastweek && request.query.lastweek == 'true') {*/
-        if (count > 10) {
-            arrayofnews[0] = 10
-            arrayofnews[1] = 10
-            arrayofnews[2] = 10
-            arrayofnews[3] = 10
-        } else {
-            arrayofnews[0] = count
-            arrayofnews[1] = count
-            arrayofnews[2] = count
-            arrayofnews[3] = count
-        }
+    if (count > 10) {
+        arrayofnews[0] = 10
+        arrayofnews[1] = 10
+        arrayofnews[2] = 10
+        arrayofnews[3] = 10
+    } else {
+        arrayofnews[0] = count
+        arrayofnews[1] = count
+        arrayofnews[2] = count
+        arrayofnews[3] = count
+    }
     /*}*/
-    
+
     let array = [];
     let response = await fetch('https://www.brighttv.co.th/tag/%e0%b9%80%e0%b8%a5%e0%b8%82%e0%b9%80%e0%b8%94%e0%b9%87%e0%b8%94/feed')
     let xml = await response.text()
@@ -1210,7 +1274,7 @@ fastify.get('/lotnews', async (request, reply) => {
     //get only count of array
     if (count) {
         array = array.slice(0, count)
-    }else{
+    } else {
         array = array.slice(0, 10)
     }
 
