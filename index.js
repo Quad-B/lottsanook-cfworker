@@ -908,7 +908,7 @@ fastify.get('/finddol', async (request, reply) => {
         })
     */
 
-    await fetch('https://raw.githubusercontent.com/boyphongsakorn/testrepo/main/tmp/' + request.query.search, { redirect: 'error' })
+    await fetch('https://raw.githubusercontent.com/boyphongsakorn/testrepo/main/tmp/' + request.query.search, { redirect: 'follow' })
         .then(res => res.json())
         .then((body) => {
             //res.send(body)
