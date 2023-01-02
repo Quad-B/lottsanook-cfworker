@@ -20,7 +20,8 @@ fastify.get('/', async (request, reply) => {
             url = 'https://' + request.headers.host
         }
     } catch (error) {*/
-    url = 'https://lottsanook-verceljs.vercel.app'
+    //url = 'https://lottsanook-verceljs.vercel.app'
+    url = 'https://lotapi3.pwisetthon.com'
     //}
 
     let test = ['test']
