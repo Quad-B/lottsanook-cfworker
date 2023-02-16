@@ -11,6 +11,7 @@
   "dependencies": {
     "cheerio": "1.0.0-rc.12",
     "fastify-edge": "^0.0.4",
-    "node-fetch": "^3.2.10"
+    "node-fetch": "^3.2.10",
+    "puppeteer": "^19.7.1"
   }
 }
