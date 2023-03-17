@@ -423,7 +423,6 @@ fastify.get('/index3', async (request, reply) => {
         //res.send(data);
         test = data
     } else {
-
         const agent = new https.Agent({
             rejectUnauthorized: false
         });
