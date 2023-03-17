@@ -3,7 +3,7 @@ const webpack = require("webpack");
 
 module.exports = {
   target: "webworker",
-  entry: "./src/index.js",
+  entry: "./index.js",
   mode: "production",
   output: {
     path: path.resolve(__dirname, 'dist'),
