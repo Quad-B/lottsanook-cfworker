@@ -4,6 +4,7 @@ specifiers:
   cheerio: 1.0.0-rc.12
   fastify-edge: ^0.0.4
   node-fetch: ^3.2.10
+  path-browserify: ^1.0.1
   puppeteer: ^19.7.1
   webpack: ^5.76.2
   webpack-cli: ^5.0.1
@@ -12,6 +13,7 @@ dependencies:
   cheerio: 1.0.0-rc.12
   fastify-edge: 0.0.4
   node-fetch: 3.2.10
+  path-browserify: 1.0.1
   puppeteer: 19.7.1
 
 devDependencies:
@@ -997,6 +999,10 @@ packages:
     resolution: {integrity: sha512-y/t8IXSPWTuRZqXc0ajH/UwDj4mnqLEbSttNbThcFhGrZuOyoyvNBO85PBp2jQa55wY9d07PBNjsK8ZP3K5U6g==}
     dependencies:
       entities: 4.3.1
+    dev: false
+
+  /path-browserify/1.0.1:
+    resolution: {integrity: sha512-b7uo2UCUOYZcnF/3ID0lulOJi/bafxa1xPe7ZPsammBSpjSWQkjNxlt635YGS2MiR9GjvuXCtz2emr3jbsz98g==}
     dev: false
 
   /path-exists/4.0.0:

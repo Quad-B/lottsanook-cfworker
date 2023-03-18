@@ -13,7 +13,7 @@ module.exports = {
     fallback: { 
       // browser/worker polyfills required to replace Node libraries used by the jsC8 SDK
       "url": require.resolve("url"),
-      "path": require.resolve("path-browserify")
+      "path": require.resolve("path-browserify"),
     }
   }
 };
