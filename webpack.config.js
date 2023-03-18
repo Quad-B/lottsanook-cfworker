@@ -14,6 +14,7 @@ module.exports = {
       // browser/worker polyfills required to replace Node libraries used by the jsC8 SDK
       "url": require.resolve("url"),
       "path": require.resolve("path-browserify"),
+      "https": require.resolve("https-browserify"),
     }
   }
 };
