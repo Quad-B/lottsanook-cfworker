@@ -29,30 +29,30 @@ fastify.get('/', async (request, reply) => {
 
     var raw
     if (!request.query.date) {
-        console.log('test')
-        console.log('test')
-        console.log('test')
+        console.log('test1')
+        console.log('test1')
+        console.log('test1')
         request.query.date = padLeadingZeros(new Date().getDate(), 2) + '' + padLeadingZeros((new Date().getMonth() + 1), 2) + '' + (new Date().getFullYear() + 543)
         raw = JSON.stringify({
             date: padLeadingZeros(new Date().getDate(), 2),
             month: padLeadingZeros((new Date().getMonth() + 1), 2),
             year: new Date().getFullYear()
         });
-        console.log('test')
-        console.log('test')
-        console.log('test')
+        console.log('test1')
+        console.log('test1')
+        console.log('test1')
     } else {
-        console.log('test')
-        console.log('test')
-        console.log('test')
+        console.log('test2')
+        console.log('test2')
+        console.log('test2')
         raw = JSON.stringify({
             date: request.query.date.substr(0, 2),
             month: request.query.date.substr(2, 2),
             year: parseInt(request.query.date.substr(4, 4)) - 543
         });
-        console.log('test')
-        console.log('test')
-        console.log('test')
+        console.log('test2')
+        console.log('test2')
+        console.log('test2')
     }
     var date = new Date(parseInt(request.query.date.substr(4, 4)) - 543, parseInt(request.query.date.substr(2, 2)) - 1, parseInt(request.query.date.substr(0, 2)) + 1);
     var today = new Date();
