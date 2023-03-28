@@ -38,21 +38,13 @@ fastify.get('/', async (request, reply) => {
             month: padLeadingZeros((new Date().getMonth() + 1), 2),
             year: new Date().getFullYear()
         });
-        console.log('test1')
-        console.log('test1')
-        console.log('test1')
+        console.log(request.query.date);
     } else {
-        console.log('test2')
-        console.log('test2')
-        console.log('test2')
         raw = JSON.stringify({
             date: request.query.date.substr(0, 2),
             month: request.query.date.substr(2, 2),
             year: parseInt(request.query.date.substr(4, 4)) - 543
         });
-        console.log('test2')
-        console.log('test2')
-        console.log('test2')
     }
     var date = new Date(parseInt(request.query.date.substr(4, 4)) - 543, parseInt(request.query.date.substr(2, 2)) - 1, parseInt(request.query.date.substr(0, 2)) + 1);
     var today = new Date();
