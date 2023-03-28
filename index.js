@@ -26,39 +26,40 @@ fastify.get('/', async (request, reply) => {
     //}
 
     let test = ['test']
+    let datefromquery = request.query.date || null
 
     var raw
-    if (!request.query.date) {
+    if (!datefromquery) {
         console.log('test1')
         console.log('test1')
         console.log('test1')
-        request.query.date = padLeadingZeros(new Date().getDate(), 2) + '' + padLeadingZeros((new Date().getMonth() + 1), 2) + '' + (new Date().getFullYear() + 543)
+        datefromquery = padLeadingZeros(new Date().getDate(), 2) + '' + padLeadingZeros((new Date().getMonth() + 1), 2) + '' + (new Date().getFullYear() + 543)
         raw = JSON.stringify({
             date: padLeadingZeros(new Date().getDate(), 2),
             month: padLeadingZeros((new Date().getMonth() + 1), 2),
             year: new Date().getFullYear()
         });
-        console.log(request.query.date);
+        console.log(datefromquery);
     } else {
         raw = JSON.stringify({
-            date: request.query.date.substr(0, 2),
-            month: request.query.date.substr(2, 2),
-            year: parseInt(request.query.date.substr(4, 4)) - 543
+            date: datefromquery.substr(0, 2),
+            month: datefromquery.substr(2, 2),
+            year: parseInt(datefromquery.substr(4, 4)) - 543
         });
     }
-    var date = new Date(parseInt(request.query.date.substr(4, 4)) - 543, parseInt(request.query.date.substr(2, 2)) - 1, parseInt(request.query.date.substr(0, 2)) + 1);
+    var date = new Date(parseInt(datefromquery.substr(4, 4)) - 543, parseInt(datefromquery.substr(2, 2)) - 1, parseInt(datefromquery.substr(0, 2)) + 1);
     var today = new Date();
 
     if (date.getTime() === today.getTime() || date > today) {
         if (request.query.from == 'true') {
-            await fetch(url + '/index3?date=' + request.query.date + '&from')
+            await fetch(url + '/index3?date=' + datefromquery + '&from')
                 .then(res => res.json())
                 .then((body) => {
                     //res.send(body)
                     test = body
                 })
         } else {
-            await fetch(url + '/index3?date=' + request.query.date)
+            await fetch(url + '/index3?date=' + datefromquery)
                 .then(res => res.json())
                 .then((body) => {
                     //res.send(body)
@@ -102,7 +103,7 @@ fastify.get('/', async (request, reply) => {
                         data[8][index + 1] = val["value"]
                     }
                     if (request.query.from == 'true') {
-                        switch (request.query.date.substr(2, 2)) {
+                        switch (datefromquery.substr(2, 2)) {
                             case '01':
                                 monthtext = "มกราคม";
                                 break;
@@ -141,25 +142,25 @@ fastify.get('/', async (request, reply) => {
                                 break;
                         }
 
-                        data[0][0] = request.query.date.substring(0, 2) + monthtext + request.query.date.substring(4, 8)
+                        data[0][0] = datefromquery.substring(0, 2) + monthtext + datefromquery.substring(4, 8)
                     }
                     //res.send(data)
                     test = data
                 } else {
-                    var date = new Date(parseInt(request.query.date.substr(4, 4)) - 543, parseInt(request.query.date.substr(2, 2)) - 1, parseInt(request.query.date.substr(0, 2)) + 1);
+                    var date = new Date(parseInt(datefromquery.substr(4, 4)) - 543, parseInt(datefromquery.substr(2, 2)) - 1, parseInt(datefromquery.substr(0, 2)) + 1);
                     var thatdate = new Date(2010, 1, 17);
                     console.log(date)
                     console.log(thatdate)
                     if (date.getTime() === thatdate.getTime() || date < thatdate) {
                         if (request.query.from == 'true') {
-                            await fetch(url + '/index2?date=' + request.query.date + '&from')
+                            await fetch(url + '/index2?date=' + datefromquery + '&from')
                                 .then(res => res.json())
                                 .then((body) => {
                                     //res.send(body)
                                     test = body
                                 })
                         } else {
-                            await fetch(url + '/index2?date=' + request.query.date)
+                            await fetch(url + '/index2?date=' + datefromquery)
                                 .then(res => res.json())
                                 .then((body) => {
                                     //res.send(body)
@@ -175,14 +176,14 @@ fastify.get('/', async (request, reply) => {
             })
             .catch(async (error) => {
                 if (request.query.from == 'true') {
-                    await fetch(url + '/index2?date=' + request.query.date + '&from')
+                    await fetch(url + '/index2?date=' + datefromquery + '&from')
                         .then(res => res.json())
                         .then((body) => {
                             //res.send(body)
                             test = body
                         })
                 } else {
-                    await fetch(url + '/index2?date=' + request.query.date)
+                    await fetch(url + '/index2?date=' + datefromquery)
                         .then(res => res.json())
                         .then((body) => {
                             //res.send(body)
