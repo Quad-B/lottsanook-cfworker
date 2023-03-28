@@ -42,6 +42,9 @@ fastify.get('/', async (request, reply) => {
             year: parseInt(request.query.date.substr(4, 4)) - 543
         });
     }
+    console.log(request.query.date.substr(4, 4))
+    console.log(request.query.date.substr(2, 2))
+    console.log(request.query.date.substr(0, 2))
     var date = new Date(parseInt(request.query.date.substr(4, 4)) - 543, parseInt(request.query.date.substr(2, 2)) - 1, parseInt(request.query.date.substr(0, 2)) + 1);
     var today = new Date();
 
