@@ -28,6 +28,9 @@ fastify.get('/', async (request, reply) => {
     let test = ['test']
 
     var raw
+    console.log('test')
+    console.log('test')
+    console.log('test')
     if (!request.query.date) {
         request.query.date = padLeadingZeros(new Date().getDate(), 2) + '' + padLeadingZeros((new Date().getMonth() + 1), 2) + '' + (new Date().getFullYear() + 543)
         raw = JSON.stringify({
