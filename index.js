@@ -29,12 +29,18 @@ fastify.get('/', async (request, reply) => {
 
     var raw
     if (!request.query.date) {
+        console.log('test')
+        console.log('test')
+        console.log('test')
         request.query.date = padLeadingZeros(new Date().getDate(), 2) + '' + padLeadingZeros((new Date().getMonth() + 1), 2) + '' + (new Date().getFullYear() + 543)
         raw = JSON.stringify({
             date: padLeadingZeros(new Date().getDate(), 2),
             month: padLeadingZeros((new Date().getMonth() + 1), 2),
             year: new Date().getFullYear()
         });
+        console.log('test')
+        console.log('test')
+        console.log('test')
     } else {
         console.log('test')
         console.log('test')
@@ -48,9 +54,6 @@ fastify.get('/', async (request, reply) => {
         console.log('test')
         console.log('test')
     }
-    console.log(request.query.date.substr(4, 4))
-    console.log(request.query.date.substr(2, 2))
-    console.log(request.query.date.substr(0, 2))
     var date = new Date(parseInt(request.query.date.substr(4, 4)) - 543, parseInt(request.query.date.substr(2, 2)) - 1, parseInt(request.query.date.substr(0, 2)) + 1);
     var today = new Date();
 
