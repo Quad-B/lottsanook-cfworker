@@ -13,7 +13,7 @@
     "cheerio": "1.0.0-rc.12",
     "fastify-edge": "^0.0.4",
     "https-browserify": "^1.0.0",
-    "node-fetch": "^3.2.10",
+    "node-fetch": "^3.3.1",
     "path-browserify": "^1.0.1",
     "puppeteer": "^20.0.0",
     "stream-http": "^3.2.0",
