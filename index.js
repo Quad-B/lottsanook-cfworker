@@ -988,6 +988,16 @@ fastify.get('/finddol', async (request, reply) => {
 })
 
 fastify.get('/lotnews', async (request, reply) => {
+    if(request.query.count > 10){
+        let cachelotnews = await fetch('https://raw.githubusercontent.com/boyphongsakorn/testrepo/main/latestnews.json')
+        reply.type('application/json')
+        reply.send(await cachelotnews.json())
+    } else if (request.query.count > 40) {
+        let cachelotnews = await fetch('https://lotapi3.pwisetthon.com/lotnews?count=100')
+        reply.type('application/json')
+        reply.send(await cachelotnews.json())
+    }
+
     let arrayofnews = [0, 0, 0, 0]
     let count = request.query.count || 0
     let check = count % 4
