@@ -1105,40 +1105,40 @@ fastify.get('/lotnews', async (request, reply) => {
         }
     }
 
-    response = await fetch('https://www.khaosod.co.th/get_menu?slug=lottery&offset=0&limit=' + arrayofnews[1])
-    xml = await response.json()
-    news = xml._posts
-    for (let i = 0; i < news.length; i++) {
-        const title = news[i].post_title
-        const link = 'https://www.khaosod.co.th/lottery/news_' + news[i].ID
-        const description = news[i].post_content
-        const pubDate = news[i].created_at
-        //format pubDate from iso string to date string
-        const event = new Date(pubDate)
-        // image
-        const image = news[i].image
-        //create new description variable with remove html tag
-        let description2 = description.replace(/<(?:.|\n)*?>/gm, '')
-        if (fulldesc == 'false') {
-            description2 = description2.substring(0, 100) + '...'
-        }
-        description2 = description2.replace(/\r?\n|\r/g, '')
-        const json = {
-            title: title,
-            link: link.replace(/\n|\t/g, ''),
-            description: description2,
-            image: image,
-            pubDate: event.toUTCString(),
-        }
-        //if new Date(pubDate) < date push to array
-        if (request.query.lastweek) {
-            if (event > date) {
-                array.push(json)
-            }
-        } else {
-            array.push(json)
-        }
-    }
+    // response = await fetch('https://www.khaosod.co.th/get_menu?slug=lottery&offset=0&limit=' + arrayofnews[1])
+    // xml = await response.json()
+    // news = xml._posts
+    // for (let i = 0; i < news.length; i++) {
+    //     const title = news[i].post_title
+    //     const link = 'https://www.khaosod.co.th/lottery/news_' + news[i].ID
+    //     const description = news[i].post_content
+    //     const pubDate = news[i].created_at
+    //     //format pubDate from iso string to date string
+    //     const event = new Date(pubDate)
+    //     // image
+    //     const image = news[i].image
+    //     //create new description variable with remove html tag
+    //     let description2 = description.replace(/<(?:.|\n)*?>/gm, '')
+    //     if (fulldesc == 'false') {
+    //         description2 = description2.substring(0, 100) + '...'
+    //     }
+    //     description2 = description2.replace(/\r?\n|\r/g, '')
+    //     const json = {
+    //         title: title,
+    //         link: link.replace(/\n|\t/g, ''),
+    //         description: description2,
+    //         image: image,
+    //         pubDate: event.toUTCString(),
+    //     }
+    //     //if new Date(pubDate) < date push to array
+    //     if (request.query.lastweek) {
+    //         if (event > date) {
+    //             array.push(json)
+    //         }
+    //     } else {
+    //         array.push(json)
+    //     }
+    // }
 
     response = await fetch('https://www.brighttv.co.th/tag/%E0%B8%AB%E0%B8%A7%E0%B8%A2%E0%B9%81%E0%B8%A1%E0%B9%88%E0%B8%99%E0%B9%89%E0%B8%B3%E0%B8%AB%E0%B8%99%E0%B8%B6%E0%B9%88%E0%B8%87/feed')
     xml = await response.text()
