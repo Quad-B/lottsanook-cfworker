@@ -988,7 +988,7 @@ fastify.get('/finddol', async (request, reply) => {
 })
 
 fastify.get('/lotnews', async (request, reply) => {
-    if(request.query.count > 10){
+    if(request.query.count > 2){
         let cachelotnews = await fetch('https://raw.githubusercontent.com/boyphongsakorn/testrepo/main/latestnews.json')
         reply.type('application/json')
         reply.send(await cachelotnews.json())
