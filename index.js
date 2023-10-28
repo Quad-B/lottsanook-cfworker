@@ -993,7 +993,7 @@ fastify.get('/lotnews', async (request, reply) => {
         reply.type('application/json')
         reply.send(await cachelotnews.json())
     } else if (request.query.count > 40) {
-        let cachelotnews = await fetch('https://lotapi3.pwisetthon.com/lotnews?count=100')
+        let cachelotnews = await fetch('https://lotapi3.pwisetthon.com/lotnews?count=' + request.query.count)
         reply.type('application/json')
         reply.send(await cachelotnews.json())
     }
