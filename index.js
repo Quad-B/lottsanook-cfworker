@@ -1092,7 +1092,8 @@ fastify.get('/lotnews', async (request, reply) => {
         // const image = $('picture > img').toArray()[0].attribs['data-src']
         let image = $('img.attachment-full').toArray()[0].attribs['data-src']
         if (image == undefined) {
-            image = $('picture > img').toArray()[0].attribs['data-src']
+            // image = $('picture > img').toArray()[0].attribs['data-src']
+            image = $('picture > img').toArray()[0].attribs['src']
         }
         //loop imageurl
         /*for (let index = 0; index < imageurl.length; index++) {
@@ -1178,9 +1179,11 @@ fastify.get('/lotnews', async (request, reply) => {
         const responimage = await getimage.text()
         const $ = cheerio.load(responimage)
         // const image = $('picture > img').toArray()[0].attribs['data-src']
+        // let image = $('img.attachment-full').toArray()[0].attribs['data-src']
         let image = $('img.attachment-full').toArray()[0].attribs['data-src']
         if (image == undefined) {
-            image = $('picture > img').toArray()[0].attribs['data-src']
+            // image = $('picture > img').toArray()[0].attribs['data-src']
+            image = $('picture > img').toArray()[0].attribs['src']
         }
         const json = {
             title: title,
