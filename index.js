@@ -657,7 +657,7 @@ fastify.get('/gdpy', async (request, reply) => {
         //test = JSON.parse(fileContents)
         yearlist = JSON.parse(fileContents)
     } else {
-        await fetch('https://www.myhora.com/%E0%B8%AB%E0%B8%A7%E0%B8%A2/%E0%B8%9B%E0%B8%B5-' + request.query.year + '.aspx')
+        await fetch('https://www.myhora.com/lottery/result-' + request.query.year + '.aspx')
             .then(res => res.text())
             .then((body) => {
                 var $ = cheerio.load(body);
