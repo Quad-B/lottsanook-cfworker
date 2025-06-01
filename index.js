@@ -1,4 +1,4 @@
-import FastifyEdge from 'fastify-edge';
+import FastifyEdge from 'fastify-edge/bun';
 //import fetch from 'node-fetch';
 import * as cheerio from 'cheerio';
 // import https from "https";
