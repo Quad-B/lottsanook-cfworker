@@ -11,8 +11,6 @@ function padLeadingZeros(num, size) {
     return s;
 }
 
-export default {
-
 fastify.get('/', async (request, reply) => {
     /*let url;
     try {
@@ -1319,4 +1317,4 @@ fastify.get('/lotnews', async (request, reply) => {
     reply.send(array)
 })
 
-};
+export default fastify;
