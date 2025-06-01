@@ -6,7 +6,6 @@ usage_model = "bundled"
 compatibility_flags = [ "nodejs_compat" ]
 workers_dev = true
 compatibility_date = "2024-09-23"
-node_compat = true
 
 [build]
 command = "npm run build"
