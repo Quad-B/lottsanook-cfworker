@@ -1003,10 +1003,12 @@ fastify.get('/lotnews', async (request, reply) => {
         let cachelotnews = await fetch('https://raw.githubusercontent.com/boyphongsakorn/testrepo/main/latestnews.json')
         reply.type('application/json')
         reply.send(await cachelotnews.json())
+        return await cachelotnews.json();
     } else if (request.query.count > 40) {
         let cachelotnews = await fetch('https://lotapi3.pwisetthon.com/lotnews?count=' + request.query.count)
         reply.type('application/json')
         reply.send(await cachelotnews.json())
+        return await cachelotnews.json();
     }
 
     let arrayofnews = [0, 0, 0, 0]
@@ -1060,7 +1062,8 @@ fastify.get('/lotnews', async (request, reply) => {
     /*}*/
 
     let array = [];
-    let response = await fetch('https://www.brighttv.co.th/tag/%e0%b9%80%e0%b8%a5%e0%b8%82%e0%b9%80%e0%b8%94%e0%b9%87%e0%b8%94/feed')
+    // let response = await fetch('https://www.brighttv.co.th/tag/%e0%b9%80%e0%b8%a5%e0%b8%82%e0%b9%80%e0%b8%94%e0%b9%87%e0%b8%94/feed')
+    let response = await fetch('https://rss.app/feeds/n8o2TN8xZ6KSQx0r.xml')
     let xml = await response.text()
     let $ = cheerio.load(xml)
     let news = $('item')
@@ -1166,7 +1169,8 @@ fastify.get('/lotnews', async (request, reply) => {
     //     }
     // }
 
-    response = await fetch('https://www.brighttv.co.th/tag/%E0%B8%AB%E0%B8%A7%E0%B8%A2%E0%B9%81%E0%B8%A1%E0%B9%88%E0%B8%99%E0%B9%89%E0%B8%B3%E0%B8%AB%E0%B8%99%E0%B8%B6%E0%B9%88%E0%B8%87/feed')
+    // response = await fetch('https://www.brighttv.co.th/tag/%E0%B8%AB%E0%B8%A7%E0%B8%A2%E0%B9%81%E0%B8%A1%E0%B9%88%E0%B8%99%E0%B9%89%E0%B8%B3%E0%B8%AB%E0%B8%99%E0%B8%B6%E0%B9%88%E0%B8%87/feed')
+    response = await fetch('https://rss.app/feeds/JsQQE1zMZ42vDpcx.xml')
     xml = await response.text()
     $ = cheerio.load(xml)
     news = $('item')
@@ -1191,10 +1195,10 @@ fastify.get('/lotnews', async (request, reply) => {
         const $ = cheerio.load(responimage)
         // const image = $('picture > img').toArray()[0].attribs['data-src']
         // let image = $('img.attachment-full').toArray()[0].attribs['data-src']
-        let image = $('img.attachment-full').toArray()[0].attribs['data-src']
+        let image = $('img.attachment-full').toArray()[0].attribs['src']
         if (image == undefined) {
             // image = $('picture > img').toArray()[0].attribs['data-src']
-            image = $('picture > img').toArray()[0].attribs['src']
+            image = $('picture > img').toArray()[0].attribs['data-src']
         }
         const json = {
             title: title,
