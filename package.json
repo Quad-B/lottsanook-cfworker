@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "cheerio": "1.0.0-rc.12",
+    "cheerio": "1.1.0",
     "fastify-edge": "^0.0.4",
     "https-browserify": "^1.0.0",
     "node-fetch": "^3.3.2",
