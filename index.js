@@ -1386,7 +1386,7 @@ fastify.get('/nextlot', async (request, reply) => {
             return mainapibody;
         }
     }
-    const url = 'https://lottsanook-cfworker.boy1556.workers.dev';
+    const url = 'https://lotapi.pwisetthon.com';
 
     let checkDate = new Date();
     
