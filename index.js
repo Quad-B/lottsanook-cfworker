@@ -1333,4 +1333,101 @@ fastify.get('/lotnews', async (request, reply) => {
     return array;
 })
 
+fastify.get('/last10year', async (request, reply) => {
+    // get date from query
+    const date = request.query.date
+    // get year from date last 4 digit
+    const year = date.substring(4, 8)
+    // minus 10 year
+    const last10year = parseInt(year) - 10
+    // create array from last 10 year to year
+    const array = Array.from({ length: 10 }, (v, k) => k + last10year)
+    console.log(array)
+    //all number
+    let allnumber = []
+    //loop array
+    for (let i = 0; i < array.length; i++) {
+        const year = array[i]
+        const dayandmonth = date.substring(0, 4)
+        console.log(dayandmonth + year)
+        const api = await fetch('https://lotapi.pwisetthon.com/?date=' + dayandmonth + year)
+        const json = await api.json()
+        //push all number in array to allnumber
+        for (let j = 0; j < json.length; j++) {
+            for (let k = 0; k < json[j].length; k++) {
+                //check json[j][k] is number
+                if (!isNaN(json[j][k]) && json[j][k] != 0) {
+                    allnumber.push(json[j][k])
+                }
+            }
+        }
+    }
+    console.log(allnumber)
+    //create json of number and count
+    let json = {}
+    for (let i = 0; i < allnumber.length; i++) {
+        if (json[allnumber[i]]) {
+            json[allnumber[i]] += 1
+        } else {
+            json[allnumber[i]] = 1
+        }
+    }
+    return json
+})
+
+fastify.get('/nextlot', async (request, reply) => {
+    if(request.hostname == 'lotapi3.pwisetthon.com'){
+        console.log(request.hostname);
+        if(mainapistatus == true){
+            //get raw url and change from lotapi3.pwisetthon.com to lotapi.pwisetthon.com
+            const rawurl = request.raw.url;
+            const mainapi = await fetch('https://lotapi.pwisetthon.com' + rawurl);
+            const mainapibody = await mainapi.json();
+            return mainapibody;
+        }
+    }
+    const url = 'https://lottsanook-cfworker.boy1556.workers.dev';
+
+    let checkDate = new Date();
+    
+    // Check up to 60 days in the future (should be enough to find next lottery)
+    // Sequential checking is used to find the earliest next lottery date
+    const maxDays = 60;
+    let daysChecked = 0;
+    
+    while (daysChecked < maxDays) {
+        // Format date as DDMMYYYY in Thai Buddhist calendar
+        const day = padLeadingZeros(checkDate.getDate(), 2);
+        const month = padLeadingZeros(checkDate.getMonth() + 1, 2);
+        const year = checkDate.getFullYear() + 543;
+        const dateStr = day + month + year;
+        
+        try {
+            // Check this date using the main API
+            const response = await fetch(url + '/?date=' + dateStr);
+            const data = await response.json();
+            
+            // If [0][1] is "xxxxxx", this is the next lottery date (case-insensitive)
+            // Break immediately when found - no need to continue looping
+            if (data[0] && (data[0][1] === 'xxxxxx' || data[0][1] === 'XXXXXX')) {
+                return {
+                    date: dateStr,
+                    data: data
+                };
+            }
+        } catch (error) {
+            console.log('Error checking date ' + dateStr + ':', error);
+        }
+        
+        // Move to next day
+        checkDate.setDate(checkDate.getDate() + 1);
+        daysChecked++;
+    }
+    
+    // If no next lottery found within maxDays
+    return {
+        error: 'No next lottery date found within ' + maxDays + ' days'
+    };
+})
+
 export default fastify;
