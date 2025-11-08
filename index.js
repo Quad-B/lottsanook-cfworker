@@ -1389,6 +1389,47 @@ fastify.get('/nextlot', async (request, reply) => {
     }
     const url = 'https://lotapi.pwisetthon.com';
 
+    // New approach: Try to get next lottery date from last year's pattern
+    try {
+        const currentYear = new Date().getFullYear() + 543; // Buddhist year
+        const lastYear = currentYear - 1;
+        
+        // Call gdpy to get last year's lottery dates
+        const gdpyResponse = await fetch(url + '/gdpy?year=' + lastYear);
+        const lastYearDates = await gdpyResponse.json();
+        
+        if (lastYearDates && lastYearDates.length > 0) {
+            // Get the last date from last year
+            const lastDate = lastYearDates[lastYearDates.length - 1];
+            
+            // Extract day and month, add 1 year to get this year's date
+            const day = lastDate.substring(0, 2);
+            const month = lastDate.substring(2, 4);
+            const thisYearDate = day + month + currentYear;
+            
+            // Check if this year's date has [0][1] === "xxxxxx"
+            const checkResponse = await fetch(url + '/?date=' + thisYearDate);
+            const checkData = await checkResponse.json();
+            
+            if (checkData[0] && (checkData[0][1] === 'xxxxxx' || checkData[0][1] === 'XXXXXX')) {
+                // Found the next lottery date using the +1 year pattern
+                reply.type('application/json')
+                reply.send({
+                    date: thisYearDate,
+                    data: checkData
+                })
+                return {
+                    date: thisYearDate,
+                    data: checkData
+                };
+            }
+        }
+    } catch (error) {
+        console.log('Error trying +1 year approach:', error);
+        // Fall through to original method
+    }
+    
+    // Fall back to original method: sequential day-by-day search
     let checkDate = new Date();
     
     // Check up to 60 days in the future (should be enough to find next lottery)
