@@ -662,41 +662,39 @@ fastify.get('/gdpy', async (request, reply) => {
         //test = JSON.parse(fileContents)
         yearlist = JSON.parse(fileContents)
     } else {
-        await fetch('https://www.myhora.com/lottery/result-' + request.query.year + '.aspx')
-            .then(res => res.text())
-            .then((body) => {
-                var $ = cheerio.load(body);
-                for (const val of $('font').toArray()) {
-                    console.log(val.firstChild.data)
-                    if (val.firstChild.data.indexOf("ตรวจสลากกินแบ่งรัฐบาล") > -1) {
-                        let day = val.firstChild.data.split(" ").splice(2)
-                        let monthnum
-                        switch (day[1]) {
-                            case 'มกราคม': monthnum = "01"; break;
-                            case 'กุมภาพันธ์': monthnum = "02"; break;
-                            case 'มีนาคม': monthnum = "03"; break;
-                            case 'เมษายน': monthnum = "04"; break;
-                            case 'พฤษภาคม': monthnum = "05"; break;
-                            case 'มิถุนายน': monthnum = "06"; break;
-                            case 'กรกฎาคม': monthnum = "07"; break;
-                            case 'สิงหาคม': monthnum = "08"; break;
-                            case 'กันยายน': monthnum = "09"; break;
-                            case 'ตุลาคม': monthnum = "10"; break;
-                            case 'พฤศจิกายน': monthnum = "11"; break;
-                            case 'ธันวาคม': monthnum = "12"; break;
-                        }
-                        peryear.unshift(padLeadingZeros(day[0], 2) + monthnum + day[2])
-                    }
+        var response = await fetch('https://www.myhora.com/lottery/result-' + request.query.year + '.aspx');
+        var body = await response.text();
+        var $ = cheerio.load(body);
+        for (const val of $('font').toArray()) {
+            console.log(val.firstChild.data)
+            if (val.firstChild.data.indexOf("ตรวจสลากกินแบ่งรัฐบาล") > -1) {
+                let day = val.firstChild.data.split(" ").splice(2)
+                let monthnum
+                switch (day[1]) {
+                    case 'มกราคม': monthnum = "01"; break;
+                    case 'กุมภาพันธ์': monthnum = "02"; break;
+                    case 'มีนาคม': monthnum = "03"; break;
+                    case 'เมษายน': monthnum = "04"; break;
+                    case 'พฤษภาคม': monthnum = "05"; break;
+                    case 'มิถุนายน': monthnum = "06"; break;
+                    case 'กรกฎาคม': monthnum = "07"; break;
+                    case 'สิงหาคม': monthnum = "08"; break;
+                    case 'กันยายน': monthnum = "09"; break;
+                    case 'ตุลาคม': monthnum = "10"; break;
+                    case 'พฤศจิกายน': monthnum = "11"; break;
+                    case 'ธันวาคม': monthnum = "12"; break;
                 }
-                for (const val of peryear) {
-                    yearlist.push(val)
-                }
-                /*fs.writeFile('tmp/' + request.query.year + '.txt', JSON.stringify(yearlist), function (err) {
-                    if (err) throw err;*/
-                //res.send(yearlist)
-                //test = yearlist
-                //});
-            })
+                peryear.unshift(padLeadingZeros(day[0], 2) + monthnum + day[2])
+            }
+        }
+        for (const val of peryear) {
+            yearlist.push(val)
+        }
+        /*fs.writeFile('tmp/' + request.query.year + '.txt', JSON.stringify(yearlist), function (err) {
+            if (err) throw err;*/
+        //res.send(yearlist)
+        //test = yearlist
+        //});
     }
 
     //return yearlist
