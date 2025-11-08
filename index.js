@@ -1350,7 +1350,7 @@ fastify.get('/last10year', async (request, reply) => {
         const year = array[i]
         const dayandmonth = date.substring(0, 4)
         console.log(dayandmonth + year)
-        const api = await fetch('https://lotapi.pwisetthon.com/?date=' + dayandmonth + year)
+        const api = await fetch('https://lotapi.pwisetthon.com/?date=' + dayandmonth + '' + year)
         const json = await api.json()
         //push all number in array to allnumber
         for (let j = 0; j < json.length; j++) {
@@ -1372,6 +1372,8 @@ fastify.get('/last10year', async (request, reply) => {
             json[allnumber[i]] = 1
         }
     }
+    reply.type('application/json')
+    reply.send(json)
     return json
 })
 
