@@ -657,7 +657,7 @@ fastify.get('/gdpy', async (request, reply) => {
     } catch (err) {
         fileContents = null;
     }
-    if (fileContents) {
+    if (fileContents != null) {
         //res.send(JSON.parse(fileContents));
         //test = JSON.parse(fileContents)
         yearlist = JSON.parse(fileContents)
