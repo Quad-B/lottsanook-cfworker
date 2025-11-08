@@ -667,6 +667,7 @@ fastify.get('/gdpy', async (request, reply) => {
             .then((body) => {
                 var $ = cheerio.load(body);
                 for (const val of $('font').toArray()) {
+                    console.log(val.firstChild.data)
                     if (val.firstChild.data.indexOf("ตรวจสลากกินแบ่งรัฐบาล") > -1) {
                         let day = val.firstChild.data.split(" ").splice(2)
                         let monthnum
