@@ -1412,6 +1412,11 @@ fastify.get('/nextlot', async (request, reply) => {
             // If [0][1] is "xxxxxx", this is the next lottery date (case-insensitive)
             // Break immediately when found - no need to continue looping
             if (data[0] && (data[0][1] === 'xxxxxx' || data[0][1] === 'XXXXXX')) {
+                reply.type('application/json')
+                reply.send({
+                    date: dateStr,
+                    data: data
+                })
                 return {
                     date: dateStr,
                     data: data
