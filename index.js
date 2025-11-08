@@ -644,6 +644,30 @@ fastify.get('/god', async (request, reply) => {
 fastify.get('/gdpy', async (request, reply) => {
     let peryear = []
     let yearlist = []
+    
+    const currentYear = new Date().getFullYear() + 543; // Convert to Buddhist year
+    const requestedYear = request.query.year;
+
+    // Check if the requested year is not the current year
+    if (requestedYear != currentYear) {
+        // Fetch from GitHub repository
+        const githubResponse = await fetch('https://raw.githubusercontent.com/boyphongsakorn/testrepo/refs/heads/main/god');
+        const githubData = await githubResponse.json();
+        
+        // Filter data for only the requested year
+        const filteredData = githubData.filter(item => {
+            // Assuming the date format is DDMMYYYY (8 digits)
+            if (item.length === 8) {
+                const yearFromDate = item.substring(4, 8);
+                return yearFromDate === requestedYear;
+            }
+            return false;
+        });
+        
+        reply.type('application/json')
+        reply.send(filteredData)
+        return filteredData;
+    }
 
     var response = await fetch('https://www.myhora.com/lottery/result-' + request.query.year + '.aspx');
     var body = await response.text();
