@@ -1377,17 +1377,7 @@ fastify.get('/last10year', async (request, reply) => {
 })
 
 fastify.get('/nextlot', async (request, reply) => {
-    if(request.hostname == 'lotapi3.pwisetthon.com'){
-        console.log(request.hostname);
-        if(mainapistatus == true){
-            //get raw url and change from lotapi3.pwisetthon.com to lotapi.pwisetthon.com
-            const rawurl = request.raw.url;
-            const mainapi = await fetch('https://lotapi.pwisetthon.com' + rawurl);
-            const mainapibody = await mainapi.json();
-            return mainapibody;
-        }
-    }
-    const url = 'https://lotapi.pwisetthon.com';
+    const url = 'https://lotapi3.pwisetthon.com';
 
     // New approach: Try to get next lottery date from last year's pattern
     try {
@@ -1395,48 +1385,45 @@ fastify.get('/nextlot', async (request, reply) => {
         const currentYear = today.getFullYear() + 543; // Buddhist year
         const lastYear = currentYear - 1;
         
-        // Create today's date in last year format (DDMMYYYY)
-        const todayLastYear = padLeadingZeros(today.getDate(), 2) + 
-                              padLeadingZeros(today.getMonth() + 1, 2) + 
-                              lastYear;
-        
         // Call gdpy to get last year's lottery dates
-        const gdpyResponse = await fetch(url + '/gdpy?year=' + lastYear);
-        const lastYearDates = await gdpyResponse.json();
+        let thisYearDates;
+        try {
+            const gdpyResponse = await fetch(url + '/gdpy?year=' + currentYear);
+            thisYearDates = await gdpyResponse.json();
+        } catch (error) {
+            thisYearDates = ['01' + padLeadingZeros(today.getMonth() + 1, 2) + currentYear];
+        }
+
+        const lastyeargdpyResponse = await fetch(url + '/gdpy?year=' + lastYear);
+        const lastYearDates = await lastyeargdpyResponse.json();
         
-        if (lastYearDates && lastYearDates.length > 0) {
-            // Find the next lottery date after today's date in last year
-            let nextDateLastYear = null;
-            for (const dateStr of lastYearDates) {
-                if (dateStr > todayLastYear) {
-                    nextDateLastYear = dateStr;
-                    break;
-                }
-            }
-            
-            if (nextDateLastYear) {
-                // Extract day and month, add 1 year to get this year's date
-                const day = nextDateLastYear.substring(0, 2);
-                const month = nextDateLastYear.substring(2, 4);
-                const thisYearDate = day + month + currentYear;
-                
-                // Check if this year's date has [0][1] === "xxxxxx"
-                const checkResponse = await fetch(url + '/?date=' + thisYearDate);
-                const checkData = await checkResponse.json();
-                
-                if (checkData[0] && (checkData[0][1] === 'xxxxxx' || checkData[0][1] === 'XXXXXX')) {
-                    // Found the next lottery date using the +1 year pattern
-                    reply.type('application/json')
-                    reply.send({
-                        date: thisYearDate,
-                        data: checkData
-                    })
-                    return {
-                        date: thisYearDate,
-                        data: checkData
-                    };
-                }
-            }
+        const lastDateStr = thisYearDates[thisYearDates.length - 1];
+        //minus 1 year from lastDateStr
+        const lastyearDateStr = lastDateStr.substring(0, 4) + lastYear;
+        //find lastDateStr in lastYearDates
+        const lastDateIndex = lastYearDates.indexOf(lastyearDateStr);
+        let nextDateStr;
+        if (lastDateIndex !== -1 && lastDateIndex + 1 < lastYearDates.length) {
+            // Get the next date from last year's dates
+            const nextYearDateStr = lastYearDates[lastDateIndex + 1];
+            // Replace year with current year
+            nextDateStr = nextYearDateStr.substring(0, 4) + currentYear;
+        }
+
+        console.log('Trying +1 year approach, checking date:', nextDateStr);
+        const checkResponse = await fetch(url + '/index3?date=' + nextDateStr);
+        const checkData = await checkResponse.json();
+
+        if (checkData[0] && (checkData[0][1] === 'xxxxxx' || checkData[0][1] === 'XXXXXX')) {
+            reply.type('application/json')
+            reply.send({
+                date: nextDateStr,
+                data: checkData
+            })
+            return {
+                date: nextDateStr,
+                data: checkData
+            };
         }
     } catch (error) {
         console.log('Error trying +1 year approach:', error);
