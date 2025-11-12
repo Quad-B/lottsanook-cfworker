@@ -642,65 +642,25 @@ fastify.get('/god', async (request, reply) => {
 })
 
 fastify.get('/gdpy', async (request, reply) => {
-    let peryear = []
-    let yearlist = []
-    
-    const currentYear = new Date().getFullYear() + 543; // Convert to Buddhist year
     const requestedYear = request.query.year;
 
-    // Check if the requested year is not the current year
-    if (requestedYear != currentYear) {
-        // Fetch from GitHub repository
-        const githubResponse = await fetch('https://raw.githubusercontent.com/boyphongsakorn/testrepo/refs/heads/main/god');
-        const githubData = await githubResponse.json();
-        
-        // Filter data for only the requested year
-        const filteredData = githubData.filter(item => {
-            // Assuming the date format is DDMMYYYY (8 digits)
-            if (item.length === 8) {
-                const yearFromDate = item.substring(4, 8);
-                return yearFromDate === requestedYear;
-            }
-            return false;
-        });
-        
-        reply.type('application/json')
-        reply.send(filteredData)
-        return filteredData;
-    }
-
-    var response = await fetch('https://www.myhora.com/lottery/result-' + request.query.year + '.aspx');
-    var body = await response.text();
-    var $ = cheerio.load(body);
-    for (const val of $('font').toArray()) {
-        console.log(val.firstChild.data)
-        if (val.firstChild.data.indexOf("ตรวจสลากกินแบ่งรัฐบาล") > -1) {
-            let day = val.firstChild.data.split(" ").splice(2)
-            let monthnum
-            switch (day[1]) {
-                case 'มกราคม': monthnum = "01"; break;
-                case 'กุมภาพันธ์': monthnum = "02"; break;
-                case 'มีนาคม': monthnum = "03"; break;
-                case 'เมษายน': monthnum = "04"; break;
-                case 'พฤษภาคม': monthnum = "05"; break;
-                case 'มิถุนายน': monthnum = "06"; break;
-                case 'กรกฎาคม': monthnum = "07"; break;
-                case 'สิงหาคม': monthnum = "08"; break;
-                case 'กันยายน': monthnum = "09"; break;
-                case 'ตุลาคม': monthnum = "10"; break;
-                case 'พฤศจิกายน': monthnum = "11"; break;
-                case 'ธันวาคม': monthnum = "12"; break;
-            }
-            peryear.unshift(padLeadingZeros(day[0], 2) + monthnum + day[2])
+    // Fetch from GitHub repository
+    const githubResponse = await fetch('https://raw.githubusercontent.com/boyphongsakorn/testrepo/refs/heads/main/god');
+    const githubData = await githubResponse.json();
+    
+    // Filter data for only the requested year
+    const filteredData = githubData.filter(item => {
+        // Assuming the date format is DDMMYYYY (8 digits)
+        if (item.length === 8) {
+            const yearFromDate = item.substring(4, 8);
+            return yearFromDate === requestedYear;
         }
-    }
-    for (const val of peryear) {
-        yearlist.push(val)
-    }
-
+        return false;
+    });
+    
     reply.type('application/json')
-    reply.send(yearlist)
-    return yearlist;
+    reply.send(filteredData)
+    return filteredData;
 })
 
 fastify.get('/checklottery', async (request, reply) => {
