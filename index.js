@@ -1406,7 +1406,8 @@ fastify.get('/nextlot', async (request, reply) => {
         let nextDateStr;
         if (lastDateIndex !== -1 && lastDateIndex + 1 < lastYearDates.length) {
             // Get the next date from last year's dates
-            const nextYearDateStr = lastYearDates[lastDateIndex + 1];
+            // const nextYearDateStr = lastYearDates[lastDateIndex + 1];
+            const nextYearDateStr = lastYearDates[lastDateIndex];
             // Replace year with current year
             nextDateStr = nextYearDateStr.substring(0, 4) + currentYear;
             console.log(nextYearDateStr)
