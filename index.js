@@ -1397,7 +1397,8 @@ fastify.get('/nextlot', async (request, reply) => {
         const lastyeargdpyResponse = await fetch(url + '/gdpy?year=' + lastYear);
         const lastYearDates = await lastyeargdpyResponse.json();
         
-        const lastDateStr = thisYearDates[thisYearDates.length - 1];
+        // const lastDateStr = thisYearDates[thisYearDates.length - 1];
+        const lastDateStr = lastYearDates[thisYearDates.length];
         //minus 1 year from lastDateStr
         const lastyearDateStr = lastDateStr.substring(0, 4) + lastYear;
         //find lastDateStr in lastYearDates
