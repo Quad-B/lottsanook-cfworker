@@ -1409,7 +1409,12 @@ fastify.get('/nextlot', async (request, reply) => {
             const nextYearDateStr = lastYearDates[lastDateIndex + 1];
             // Replace year with current year
             nextDateStr = nextYearDateStr.substring(0, 4) + currentYear;
+            console.log(nextYearDateStr)
         }
+        console.log(lastDateStr)
+        console.log(lastyearDateStr)
+        console.log(lastDateIndex)
+        console.log(nextDateStr)
 
         console.log('Trying +1 year approach, checking date:', nextDateStr);
         const checkResponse = await fetch(url + '/index3?date=' + nextDateStr);
