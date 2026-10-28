@@ -1379,106 +1379,79 @@ fastify.get('/last10year', async (request, reply) => {
 fastify.get('/nextlot', async (request, reply) => {
     const url = 'https://lotapi3.pwisetthon.com';
 
-    // New approach: Try to get next lottery date from last year's pattern
-    try {
-        const today = new Date();
-        const currentYear = today.getFullYear() + 543; // Buddhist year
-        const lastYear = currentYear - 1;
-        
-        // Call gdpy to get last year's lottery dates
-        let thisYearDates;
-        try {
-            const gdpyResponse = await fetch(url + '/gdpy?year=' + currentYear);
-            thisYearDates = await gdpyResponse.json();
-        } catch (error) {
-            thisYearDates = ['01' + padLeadingZeros(today.getMonth() + 1, 2) + currentYear];
-        }
-
-        const lastyeargdpyResponse = await fetch(url + '/gdpy?year=' + lastYear);
-        const lastYearDates = await lastyeargdpyResponse.json();
-        
-        // const lastDateStr = thisYearDates[thisYearDates.length - 1];
-        const lastDateStr = lastYearDates[thisYearDates.length];
-        //minus 1 year from lastDateStr
-        const lastyearDateStr = lastDateStr.substring(0, 4) + lastYear;
-        //find lastDateStr in lastYearDates
-        const lastDateIndex = lastYearDates.indexOf(lastyearDateStr);
-        let nextDateStr;
-        if (lastDateIndex !== -1 && lastDateIndex + 1 < lastYearDates.length) {
-            // Get the next date from last year's dates
-            // const nextYearDateStr = lastYearDates[lastDateIndex + 1];
-            const nextYearDateStr = lastYearDates[lastDateIndex];
-            // Replace year with current year
-            nextDateStr = nextYearDateStr.substring(0, 4) + currentYear;
-            console.log(nextYearDateStr)
-        }
-        console.log(lastDateStr)
-        console.log(lastyearDateStr)
-        console.log(lastDateIndex)
-        console.log(nextDateStr)
-
-        console.log('Trying +1 year approach, checking date:', nextDateStr);
-        const checkResponse = await fetch(url + '/index3?date=' + nextDateStr);
-        const checkData = await checkResponse.json();
-
-        if (checkData[0] && (checkData[0][1] === 'xxxxxx' || checkData[0][1] === 'XXXXXX')) {
-            reply.type('application/json')
-            reply.send({
-                date: nextDateStr,
-                data: checkData
-            })
-            return {
-                date: nextDateStr,
-                data: checkData
-            };
-        }
-    } catch (error) {
-        console.log('Error trying +1 year approach:', error);
-        // Fall through to original method
-    }
-    
-    // Fall back to original method: sequential day-by-day search
-    let checkDate = new Date();
-    
-    // Check up to 60 days in the future (should be enough to find next lottery)
-    // Sequential checking is used to find the earliest next lottery date
     const maxDays = 60;
-    let daysChecked = 0;
-    
-    while (daysChecked < maxDays) {
-        // Format date as DDMMYYYY in Thai Buddhist calendar
-        const day = padLeadingZeros(checkDate.getDate(), 2);
-        const month = padLeadingZeros(checkDate.getMonth() + 1, 2);
-        const year = checkDate.getFullYear() + 543;
-        const dateStr = day + month + year;
-        
+
+    const isUndrawn = (data) => {
+        return Array.isArray(data) && Array.isArray(data[0]) &&
+            (data[0][1] === 'xxxxxx' || data[0][1] === 'XXXXXX');
+    };
+
+    // Date as DDMMYYYY in Thai Buddhist calendar
+    const toBuddhistStr = (d) => padLeadingZeros(d.getDate(), 2) + padLeadingZeros(d.getMonth() + 1, 2) + (d.getFullYear() + 543);
+
+    // Thai lottery is drawn on fixed days of the month: 1st and 16th, plus
+    // occasional special draws (2nd, 15th, 17th, 30th, 31st). All 832 draws
+    // in the 17-year "god" history fall on one of these days, so probe only
+    // those dates in the next 60 days - in parallel - instead of every day.
+    const drawDays = [1, 2, 15, 16, 17, 30, 31];
+    const candidateDates = [];
+    for (let i = 0; i < maxDays; i++) {
+        const d = new Date();
+        d.setDate(d.getDate() + i);
+        if (drawDays.indexOf(d.getDate()) !== -1) {
+            candidateDates.push(toBuddhistStr(d));
+        }
+    }
+
+    // Probe all candidates at once: wall time is one upstream call, not N
+    const probed = new Map(); // dateStr -> parsed body (null on error)
+    await Promise.all(candidateDates.map(async (dateStr) => {
         try {
-            // Check this date using the main API
+            const response = await fetch(url + '/?date=' + dateStr);
+            probed.set(dateStr, await response.json());
+        } catch (error) {
+            probed.set(dateStr, null);
+            console.log('Error checking date ' + dateStr + ':', error);
+        }
+    }));
+
+    // First (chronological) candidate still showing the "not yet drawn" marker
+    for (const dateStr of candidateDates) {
+        if (isUndrawn(probed.get(dateStr))) {
+            reply.type('application/json')
+            reply.send({ date: dateStr, data: probed.get(dateStr) })
+            return { date: dateStr, data: probed.get(dateStr) };
+        }
+    }
+
+    // Fallback: only dates whose probe failed (unknown status) still need a
+    // day-by-day check - a successful probe already told us the answer for that
+    // date, and draws have never happened on a non-candidate day, so the old
+    // full 60-day scan is skipped when there is nothing left to learn.
+    const unknownDates = [];
+    for (let i = 0; i < maxDays; i++) {
+        const d = new Date();
+        d.setDate(d.getDate() + i);
+        const dateStr = toBuddhistStr(d);
+        if (probed.has(dateStr) ? probed.get(dateStr) === null : true) {
+            unknownDates.push(dateStr);
+        }
+    }
+
+    for (const dateStr of unknownDates) {
+        try {
             const response = await fetch(url + '/?date=' + dateStr);
             const data = await response.json();
-            
-            // If [0][1] is "xxxxxx", this is the next lottery date (case-insensitive)
-            // Break immediately when found - no need to continue looping
-            if (data[0] && (data[0][1] === 'xxxxxx' || data[0][1] === 'XXXXXX')) {
+            if (isUndrawn(data)) {
                 reply.type('application/json')
-                reply.send({
-                    date: dateStr,
-                    data: data
-                })
-                return {
-                    date: dateStr,
-                    data: data
-                };
+                reply.send({ date: dateStr, data: data })
+                return { date: dateStr, data: data };
             }
         } catch (error) {
             console.log('Error checking date ' + dateStr + ':', error);
         }
-        
-        // Move to next day
-        checkDate.setDate(checkDate.getDate() + 1);
-        daysChecked++;
     }
-    
+
     // If no next lottery found within maxDays
     return {
         error: 'No next lottery date found within ' + maxDays + ' days'
