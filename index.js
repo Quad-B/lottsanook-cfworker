@@ -1377,7 +1377,7 @@ fastify.get('/last10year', async (request, reply) => {
 })
 
 fastify.get('/nextlot', async (request, reply) => {
-    const url = 'https://lotapi3.pwisetthon.com';
+    const url = 'https://lotapi.pwisetthon.com';
 
     const maxDays = 60;
 
@@ -1403,11 +1403,22 @@ fastify.get('/nextlot', async (request, reply) => {
         }
     }
 
+    const sendResult = (payload) => {
+        reply.type('application/json')
+        reply.send(payload)
+        return payload;
+    };
+
+    // Never run past Cloudflare's 30s worker wall-clock, or the client gets a
+    // blank page: cap parallel probes at 8s each and hard-stop this handler
+    // at the deadline.
+    const deadline = Date.now() + 28000;
+
     // Probe all candidates at once: wall time is one upstream call, not N
-    const probed = new Map(); // dateStr -> parsed body (null on error)
+    const probed = new Map(); // dateStr -> parsed body (null on error/timeout)
     await Promise.all(candidateDates.map(async (dateStr) => {
         try {
-            const response = await fetch(url + '/?date=' + dateStr);
+            const response = await fetch(url + '/?date=' + dateStr, { signal: AbortSignal.timeout(8000) });
             probed.set(dateStr, await response.json());
         } catch (error) {
             probed.set(dateStr, null);
@@ -1418,44 +1429,33 @@ fastify.get('/nextlot', async (request, reply) => {
     // First (chronological) candidate still showing the "not yet drawn" marker
     for (const dateStr of candidateDates) {
         if (isUndrawn(probed.get(dateStr))) {
-            reply.type('application/json')
-            reply.send({ date: dateStr, data: probed.get(dateStr) })
-            return { date: dateStr, data: probed.get(dateStr) };
+            return sendResult({ date: dateStr, data: probed.get(dateStr) });
         }
     }
 
-    // Fallback: only dates whose probe failed (unknown status) still need a
-    // day-by-day check - a successful probe already told us the answer for that
-    // date, and draws have never happened on a non-candidate day, so the old
-    // full 60-day scan is skipped when there is nothing left to learn.
-    const unknownDates = [];
-    for (let i = 0; i < maxDays; i++) {
-        const d = new Date();
-        d.setDate(d.getDate() + i);
-        const dateStr = toBuddhistStr(d);
-        if (probed.has(dateStr) ? probed.get(dateStr) === null : true) {
-            unknownDates.push(dateStr);
-        }
-    }
-
-    for (const dateStr of unknownDates) {
+    // Fallback: only retry candidates whose probe failed (unknown status) - a
+    // successful probe already told us the answer for that date, and draws have
+    // never happened on a non-candidate day. Stop at the deadline so a slow
+    // upstream can't hang the whole request.
+    for (const dateStr of candidateDates) {
+        if (Date.now() >= deadline) break;
+        if (probed.get(dateStr) !== null) continue;
         try {
-            const response = await fetch(url + '/?date=' + dateStr);
+            const response = await fetch(url + '/?date=' + dateStr, { signal: AbortSignal.timeout(10000) });
             const data = await response.json();
             if (isUndrawn(data)) {
-                reply.type('application/json')
-                reply.send({ date: dateStr, data: data })
-                return { date: dateStr, data: data };
+                return sendResult({ date: dateStr, data: data });
             }
         } catch (error) {
             console.log('Error checking date ' + dateStr + ':', error);
         }
     }
 
-    // If no next lottery found within maxDays
-    return {
+    // If no next lottery found (or upstream too slow) - always send a real JSON
+    // response so clients never see a blank page
+    return sendResult({
         error: 'No next lottery date found within ' + maxDays + ' days'
-    };
+    });
 })
 
 export default fastify;
